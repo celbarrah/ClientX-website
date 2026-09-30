@@ -73,8 +73,8 @@ export function HeroSection() {
           >
             ClientX rassemble{" "}
             <span style={{ color: "var(--ink)", fontWeight: 500 }}>
-              vos pages web, vos contacts, vos emails, vos rendez-vous, vos paiements et vos
-              formations
+              vos pages web, vos contacts, votre pipeline commercial, vos rendez-vous, vos paiements,
+              vos formations et vos agents IA
             </span>{" "}
             dans un CRM IA unifié, propulsé par un puissant moteur d'automatisation natif.
           </motion.p>
