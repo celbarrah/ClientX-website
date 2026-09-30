@@ -186,7 +186,7 @@ export function SiteFooter() {
               className="mt-6 max-w-[26rem] text-[14.5px] leading-relaxed"
               style={{ color: "var(--text)" }}
             >
-              Le logiciel tout-en-un qui centralise vos sites, votre CRM, vos emails, vos
+              Le CRM IA tout-en-un qui centralise vos sites, vos contacts, vos emails, vos
               calendriers et vos automatisations. Augmentez vos résultats sans multiplier vos
               abonnements.
             </p>

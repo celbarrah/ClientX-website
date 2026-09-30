@@ -7,8 +7,8 @@ import {
   PricingCards,
   IncludedGroupsSection,
   AIAgentsSection,
-  RegionSwitch,
   defaultRegion,
+  useGeoRegion,
   type Region,
 } from "../components/site/Pricing";
 import { FaqSection } from "../components/site/Faq";
@@ -29,6 +29,7 @@ export const Route = createFileRoute("/tarifs")({
 function TarifsPage() {
   const [region, setRegion] = useState<Region>("fr");
   useEffect(() => setRegion(defaultRegion()), []);
+  useGeoRegion(setRegion);
 
   return (
     <PageMain>
@@ -49,7 +50,7 @@ function TarifsPage() {
             <span style={{ color: "var(--green-text)" }}>ambition.</span>
           </>
         }
-        paragraph="Un seul logiciel IA pour vos sites, votre CRM, vos emails, vos rendez-vous et vos automatisations."
+        paragraph="Un seul CRM IA pour vos sites, vos contacts, vos emails, vos rendez-vous et vos automatisations."
       />
 
       <div className="container-x pb-4">
@@ -62,9 +63,6 @@ function TarifsPage() {
       <section className="py-8 md:py-12">
         <div className="container-x">
           <div className="flex flex-col items-center text-center">
-            <div className="mt-2">
-              <RegionSwitch region={region} setRegion={setRegion} />
-            </div>
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}

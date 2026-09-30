@@ -45,7 +45,7 @@ export function HeroSection() {
       <div className="container-x relative grid items-center gap-12 pt-28 md:pt-36 lg:grid-cols-[1fr_1.1fr] lg:gap-8">
         {/* Left */}
         <div>
-          <Eyebrow>N°1 Logiciel IA Business All-in-One</Eyebrow>
+          <Eyebrow>N°1 CRM IA Business All-in-One</Eyebrow>
           <motion.h1
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
@@ -59,7 +59,7 @@ export function HeroSection() {
               color: "#000000",
             }}
           >
-            <span className="grad-ink">Un seul logiciel IA. Tout votre business.</span>{" "}
+            <span className="grad-ink">Un seul CRM IA. Tout votre business.</span>{" "}
             <span className="accent-serif" style={{ fontSize: "1.08em" }}>
               Zéro friction.
             </span>
@@ -73,10 +73,10 @@ export function HeroSection() {
           >
             ClientX rassemble{" "}
             <span style={{ color: "var(--ink)", fontWeight: 500 }}>
-              vos pages web, votre CRM, vos emails, vos rendez-vous, vos paiements et vos formations
+              vos pages web, vos contacts, vos emails, vos rendez-vous, vos paiements et vos
+              formations
             </span>{" "}
-            dans une plateforme logicielle IA unifiée, propulsée par un puissant moteur
-            d'automatisation natif.
+            dans un CRM IA unifié, propulsé par un puissant moteur d'automatisation natif.
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 16 }}

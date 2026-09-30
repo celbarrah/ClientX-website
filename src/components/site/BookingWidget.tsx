@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { BOOKING_IFRAME_SRC, BOOKING_SCRIPT_SRC } from "../../lib/site";
+import { BOOKING_SCRIPT_SRC } from "../../lib/site";
+import { useGeoCalendar } from "../../hooks/useGeoCalendar";
 
 export function BookingWidget({ minHeight = 760 }: { minHeight?: number }) {
   const [loaded, setLoaded] = useState(false);
+  const { calendarUrl, calendarId, loading: geoLoading } = useGeoCalendar();
   const frameRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
@@ -22,7 +24,7 @@ export function BookingWidget({ minHeight = 760 }: { minHeight?: number }) {
 
   return (
     <div className="relative w-full overflow-hidden" style={{ minHeight, background: "#ffffff" }}>
-      {!loaded && (
+      {(!loaded || geoLoading) && (
         <div
           className="absolute inset-0 z-0 flex flex-col items-center justify-center p-8 text-center"
           style={{ background: "#ffffff" }}
@@ -39,27 +41,30 @@ export function BookingWidget({ minHeight = 760 }: { minHeight?: number }) {
           </p>
         </div>
       )}
-      <iframe
-        ref={frameRef}
-        id="51RZQPaa7WdsUiefZ3FL_1790598509806"
-        src={BOOKING_IFRAME_SRC}
-        allow="payment"
-        title="Calendrier officiel de réservation ClientX AI"
-        scrolling="no"
-        onLoad={() => setLoaded(true)}
-        style={{
-          width: "100%",
-          minHeight,
-          border: "none",
-          overflow: "hidden",
-          display: "block",
-          position: "relative",
-          zIndex: 1,
-          opacity: loaded ? 1 : 0.01,
-          transition: "opacity 0.4s ease",
-          background: "#ffffff",
-        }}
-      />
+      {!geoLoading && (
+        <iframe
+          key={calendarId}
+          ref={frameRef}
+          id={`${calendarId}_booking`}
+          src={calendarUrl}
+          allow="payment"
+          title="Calendrier officiel de réservation ClientX AI"
+          scrolling="no"
+          onLoad={() => setLoaded(true)}
+          style={{
+            width: "100%",
+            minHeight,
+            border: "none",
+            overflow: "hidden",
+            display: "block",
+            position: "relative",
+            zIndex: 1,
+            opacity: loaded ? 1 : 0.01,
+            transition: "opacity 0.4s ease",
+            background: "#ffffff",
+          }}
+        />
+      )}
     </div>
   );
 }

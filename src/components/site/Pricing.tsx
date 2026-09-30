@@ -11,17 +11,15 @@ import {
   type PlanRegion,
 } from "../../lib/site";
 import { Link } from "@tanstack/react-router";
+import { detectCountry } from "../../hooks/useGeoCalendar";
+
+export type { Region };
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
 /* ---------- Region helpers ---------- */
+/** First guess before the IP lookup returns: Moroccan time zone → MAD, else €. */
 export function defaultRegion(): Region {
-  try {
-    const saved = localStorage.getItem("clientx-region");
-    if (saved === "fr" || saved === "ma") return saved;
-  } catch {
-    /* ignore */
-  }
   try {
     const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
     if (tz.includes("Casablanca")) return "ma";
@@ -29,6 +27,24 @@ export function defaultRegion(): Region {
     /* ignore */
   }
   return "fr";
+}
+
+/* Location-based pricing: visitors in Morocco (IP) see MAD, everyone else sees €. */
+export function useGeoRegion(setRegion: (r: Region) => void) {
+  useEffect(() => {
+    try {
+      localStorage.removeItem("clientx-region"); // clear any old manual choice
+    } catch {
+      /* ignore */
+    }
+    let alive = true;
+    detectCountry().then((c) => {
+      if (alive && c) setRegion(c === "MA" ? "ma" : "fr");
+    });
+    return () => {
+      alive = false;
+    };
+  }, [setRegion]);
 }
 
 /* ---------- Light region switch (segmented pill) ---------- */
@@ -95,8 +111,9 @@ function fmtPrice(n: number, currency: "€" | "MAD") {
     (currency === "€" ? " €" : " MAD")
   );
 }
-function fmtInstall(n: number, currency: "€" | "MAD") {
-  return `ou 2 × ${new Intl.NumberFormat("fr-FR", { maximumFractionDigits: 0 }).format(n)} ${currency === "€" ? "€" : "MAD"}`;
+/** Annual price → "per day" price, rounded up to a whole unit (990 € / an → 3 € / jour). */
+export function dailyPrice(annual: number) {
+  return Math.ceil(annual / 365);
 }
 
 /* ---------- Animated price counter (ink) ---------- */
@@ -139,14 +156,16 @@ function PricingCard({ plan, region, ctaTo }: { plan: Plan; region: Region; ctaT
   const fg = "var(--ink)";
   const sub = featured ? "#2f5a3a" : "var(--muted)";
   const line = featured ? "rgba(22,120,40,0.18)" : "var(--line)";
-  const priceStr = new Intl.NumberFormat("fr-FR", { maximumFractionDigits: 0 }).format(r.price);
+  const dailyStr = new Intl.NumberFormat("fr-FR", { maximumFractionDigits: 0 }).format(
+    dailyPrice(r.price),
+  );
   return (
     <motion.div
       initial={{ opacity: 0, y: 18 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.5, ease: EASE }}
-      className={`relative flex h-full flex-col overflow-hidden !rounded-[28px] p-7 md:p-9 ${
+      className={`relative flex h-full flex-col overflow-hidden !rounded-[28px] p-7 text-left md:p-9 ${
         featured ? "glow-card lg:-my-4 lg:py-12" : "glass-card glass-card-hover"
       }`}
       style={{ color: fg }}
@@ -178,36 +197,35 @@ function PricingCard({ plan, region, ctaTo }: { plan: Plan; region: Region; ctaT
         {plan.desc}
       </p>
 
-      {/* Price */}
+      {/* Price — "À partir de X / jour" (derived from the annual price) */}
       <div className="relative mt-7">
-        <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+        <span
+          className="text-[11px] font-semibold uppercase tracking-[0.14em]"
+          style={{ fontFamily: "var(--font-mono)", color: featured ? "#2f5a3a" : "var(--faint)" }}
+        >
+          À partir de
+        </span>
+        <div className="mt-2 flex flex-wrap items-baseline gap-x-2 gap-y-1">
           <span
             className="whitespace-nowrap font-semibold"
             style={{
               fontFamily: "var(--font-display)",
-              fontSize: "clamp(2.4rem,3.6vw,3.1rem)",
+              fontSize: "clamp(2.6rem,4vw,3.4rem)",
               letterSpacing: "-0.05em",
               lineHeight: 1,
               color: fg,
               fontVariantNumeric: "tabular-nums",
             }}
           >
-            {priceStr}
+            {dailyStr}
+            <span style={{ fontSize: "0.55em", letterSpacing: "-0.02em", marginLeft: "0.2em" }}>
+              {r.currency === "€" ? "€" : "MAD"}
+            </span>
           </span>
           <span className="whitespace-nowrap text-[15px] font-medium" style={{ color: sub }}>
-            {r.currency === "€" ? "€" : "MAD"} / an
+            / jour
           </span>
         </div>
-        <span
-          className="mt-4 inline-block rounded-full px-3 py-1 text-[12px] font-medium"
-          style={{
-            background: featured ? "rgba(255,255,255,0.8)" : "var(--tint-green)",
-            color: "#0b5f2c",
-            border: "1px solid rgba(22,163,74,0.2)",
-          }}
-        >
-          {fmtInstall(r.install1, r.currency)}
-        </span>
       </div>
 
       <div className="relative my-7 h-px w-full" style={{ background: line }} />
@@ -305,6 +323,7 @@ export function PricingCards({ region, ctaTo = "/contact" }: { region: Region; c
 export function PricingSection() {
   const [region, setRegion] = useState<Region>("fr");
   useEffect(() => setRegion(defaultRegion()), []);
+  useGeoRegion(setRegion);
   return (
     <section
       id="tarifs"
@@ -341,12 +360,9 @@ export function PricingSection() {
             className="text-pretty mt-4 text-[17px] leading-relaxed"
             style={{ color: "var(--muted)", maxWidth: "44rem" }}
           >
-            Un seul logiciel IA pour vos sites, votre CRM, vos emails, vos rendez-vous et vos
+            Un seul CRM IA pour vos sites, vos contacts, vos emails, vos rendez-vous et vos
             automatisations.
           </p>
-        </div>
-        <div className="mt-8 flex justify-center">
-          <RegionSwitch region={region} setRegion={setRegion} />
         </div>
         <AnimatePresence mode="wait">
           <motion.div

@@ -59,7 +59,7 @@ function UseCasesPage() {
             Nos Cas Clients <span style={{ color: "var(--green-text)" }}>par Secteur</span>
           </>
         }
-        paragraph="Sélectionnez un secteur pour découvrir nos clients concrets, leurs défis et les solutions logicielles IA que nous avons déployées."
+        paragraph="Sélectionnez un secteur pour découvrir nos clients concrets, leurs défis et les solutions CRM & IA que nous avons déployées."
       />
 
       <div className="container-x pb-20">

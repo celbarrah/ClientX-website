@@ -223,7 +223,7 @@ export const PLANS: Plan[] = [
     name: "Starter",
     desc: "Idéal pour lancer son activité avec la plateforme unifiée ClientX.",
     featured: false,
-    users: "1",
+    users: "3",
     contacts: "5 000",
     regions: {
       fr: { price: 990, currency: "€", monthly: 82.5, install1: 495 },

@@ -283,7 +283,7 @@ function Orbit({ active }: { active: boolean }) {
             className="whitespace-nowrap text-[10.5px] font-semibold sm:text-[12.5px]"
             style={{ color: "var(--ink)" }}
           >
-            Un seul logiciel IA.
+            Un seul CRM IA.
           </span>
         </motion.div>
       </div>

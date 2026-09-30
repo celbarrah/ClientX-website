@@ -38,7 +38,7 @@ const WHY_POINTS = [
   {
     icon: MonitorPlay,
     title: "Démo en direct",
-    text: "Démonstration en direct de la plateforme logicielle ClientX AI.",
+    text: "Démonstration en direct du CRM IA ClientX AI.",
   },
   {
     icon: Wrench,

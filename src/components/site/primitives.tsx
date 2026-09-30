@@ -254,7 +254,7 @@ export function FooterCTA() {
             >
               Un seul
               <br />
-              logiciel IA.
+              CRM IA.
               <br />
               <span
                 style={{
