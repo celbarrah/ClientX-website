@@ -34,3 +34,6 @@ src/tailwind.config.vibe.json
 
 # temp transfer folder
 _claude/
+
+# Vercel build output
+.vercel/

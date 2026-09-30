@@ -11,6 +11,9 @@ export default defineConfig({
   // Browser errors stay in the trusted parent-frame console-log flow;
   // do not expose the bridge collector on the public sandbox tunnel.
   devServerBridge: { errorCollector: false },
+  // Production builds outside the AI Studio sandbox: emit a Vercel deployment
+  // (.vercel/output). Inside the sandbox the package keeps its Cloudflare preset.
+  nitro: { preset: "vercel" },
   // Do not set server.hmr.timeout — Vite 8 deprecated those websocket fields
   // (use server.ws.*). Overlay/host/port are package-owned; default WS timeout is 30s.
   tanstackStart: {
