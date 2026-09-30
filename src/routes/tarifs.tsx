@@ -7,8 +7,6 @@ import {
   PricingCards,
   IncludedGroupsSection,
   AIAgentsSection,
-  defaultRegion,
-  useGeoRegion,
   type Region,
 } from "../components/site/Pricing";
 import { FaqSection } from "../components/site/Faq";
@@ -27,9 +25,8 @@ export const Route = createFileRoute("/tarifs")({
 });
 
 function TarifsPage() {
-  const [region, setRegion] = useState<Region>("fr");
-  useEffect(() => setRegion(defaultRegion()), []);
-  useGeoRegion(setRegion);
+  // Prices are shown in euros for every visitor (France, Maroc and elsewhere).
+  const region: Region = "fr";
 
   return (
     <PageMain>

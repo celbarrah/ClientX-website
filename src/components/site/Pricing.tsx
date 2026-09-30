@@ -321,9 +321,8 @@ export function PricingCards({ region, ctaTo = "/contact" }: { region: Region; c
 
 /* ---------- Home pricing section (light, on canvas) ---------- */
 export function PricingSection() {
-  const [region, setRegion] = useState<Region>("fr");
-  useEffect(() => setRegion(defaultRegion()), []);
-  useGeoRegion(setRegion);
+  // Prices are shown in euros for every visitor (France, Maroc and elsewhere).
+  const region: Region = "fr";
   return (
     <section
       id="tarifs"
