@@ -37,3 +37,6 @@ _claude/
 
 # Vercel build output
 .vercel/
+
+# Netlify build output
+.netlify/
