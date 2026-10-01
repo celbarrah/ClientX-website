@@ -17,6 +17,8 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as FonctionnalitesRouteImport } from './routes/fonctionnalites'
 import { Route as MentionsLegalesRouteImport } from './routes/mentions-legales'
 import { Route as TarifsRouteImport } from './routes/tarifs'
+import { Route as ThankYouGbRouteImport } from './routes/thank-you-gb'
+import { Route as ThankYouMaRouteImport } from './routes/thank-you-ma'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -58,6 +60,16 @@ const TarifsRoute = TarifsRouteImport.update({
   path: '/tarifs',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ThankYouGbRoute = ThankYouGbRouteImport.update({
+  id: '/thank-you-gb',
+  path: '/thank-you-gb',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ThankYouMaRoute = ThankYouMaRouteImport.update({
+  id: '/thank-you-ma',
+  path: '/thank-you-ma',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -68,6 +80,8 @@ export interface FileRoutesByFullPath {
   '/fonctionnalites': typeof FonctionnalitesRoute
   '/mentions-legales': typeof MentionsLegalesRoute
   '/tarifs': typeof TarifsRoute
+  '/thank-you-gb': typeof ThankYouGbRoute
+  '/thank-you-ma': typeof ThankYouMaRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -78,6 +92,8 @@ export interface FileRoutesByTo {
   '/fonctionnalites': typeof FonctionnalitesRoute
   '/mentions-legales': typeof MentionsLegalesRoute
   '/tarifs': typeof TarifsRoute
+  '/thank-you-gb': typeof ThankYouGbRoute
+  '/thank-you-ma': typeof ThankYouMaRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -89,6 +105,8 @@ export interface FileRoutesById {
   '/fonctionnalites': typeof FonctionnalitesRoute
   '/mentions-legales': typeof MentionsLegalesRoute
   '/tarifs': typeof TarifsRoute
+  '/thank-you-gb': typeof ThankYouGbRoute
+  '/thank-you-ma': typeof ThankYouMaRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -101,6 +119,8 @@ export interface FileRouteTypes {
     | '/fonctionnalites'
     | '/mentions-legales'
     | '/tarifs'
+    | '/thank-you-gb'
+    | '/thank-you-ma'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -111,6 +131,8 @@ export interface FileRouteTypes {
     | '/fonctionnalites'
     | '/mentions-legales'
     | '/tarifs'
+    | '/thank-you-gb'
+    | '/thank-you-ma'
   id:
     | '__root__'
     | '/'
@@ -121,6 +143,8 @@ export interface FileRouteTypes {
     | '/fonctionnalites'
     | '/mentions-legales'
     | '/tarifs'
+    | '/thank-you-gb'
+    | '/thank-you-ma'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -132,6 +156,8 @@ export interface RootRouteChildren {
   FonctionnalitesRoute: typeof FonctionnalitesRoute
   MentionsLegalesRoute: typeof MentionsLegalesRoute
   TarifsRoute: typeof TarifsRoute
+  ThankYouGbRoute: typeof ThankYouGbRoute
+  ThankYouMaRoute: typeof ThankYouMaRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -192,6 +218,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TarifsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/thank-you-gb': {
+      id: '/thank-you-gb'
+      path: '/thank-you-gb'
+      fullPath: '/thank-you-gb'
+      preLoaderRoute: typeof ThankYouGbRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/thank-you-ma': {
+      id: '/thank-you-ma'
+      path: '/thank-you-ma'
+      fullPath: '/thank-you-ma'
+      preLoaderRoute: typeof ThankYouMaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -204,6 +244,8 @@ const rootRouteChildren: RootRouteChildren = {
   FonctionnalitesRoute: FonctionnalitesRoute,
   MentionsLegalesRoute: MentionsLegalesRoute,
   TarifsRoute: TarifsRoute,
+  ThankYouGbRoute: ThankYouGbRoute,
+  ThankYouMaRoute: ThankYouMaRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
