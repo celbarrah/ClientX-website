@@ -7,6 +7,7 @@ import {
   PricingCards,
   IncludedGroupsSection,
   AIAgentsSection,
+  RegionSwitch,
   type Region,
 } from "../components/site/Pricing";
 import { FaqSection } from "../components/site/Faq";
@@ -25,8 +26,8 @@ export const Route = createFileRoute("/tarifs")({
 });
 
 function TarifsPage() {
-  // Prices are shown in euros for every visitor (France, Maroc and elsewhere).
-  const region: Region = "fr";
+  // Euros by default; visitors can switch to Moroccan dirham prices.
+  const [region, setRegion] = useState<Region>("fr");
 
   return (
     <PageMain>
@@ -50,16 +51,11 @@ function TarifsPage() {
         paragraph="Un seul CRM IA pour vos sites, vos contacts, vos emails, vos rendez-vous et vos automatisations."
       />
 
-      <div className="container-x pb-4">
-        <p className="text-center text-[15px]" style={{ color: "var(--muted)" }}>
-          Paiement annuel, possible en deux fois.
-        </p>
-      </div>
-
       {/* Pricing — White Section */}
       <section className="py-8 md:py-12">
         <div className="container-x">
           <div className="flex flex-col items-center text-center">
+            <RegionSwitch region={region} setRegion={setRegion} />
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -78,7 +74,7 @@ function TarifsPage() {
       </section>
 
       <IncludedGroupsSection />
-      <AIAgentsSection />
+      <AIAgentsSection region={region} />
       <FaqSection align="left" />
       <FooterCTA />
     </PageMain>

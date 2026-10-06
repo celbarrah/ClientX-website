@@ -15,6 +15,7 @@ import { FAVICON_URL, ORGANIZATION_LD, WEBSITE_LD, jsonLd } from "../lib/seo";
 import { SiteHeader, SiteFooter } from "../components/site/Layout";
 import { SmoothScroll } from "../components/site/SmoothScroll";
 import { ThemeProvider } from "../components/site/Theme";
+import { GlobalChatWidget } from "../components/site/GlobalChatWidget";
 
 function NotFoundComponent() {
   return (
@@ -131,6 +132,7 @@ function RootShell({ children }: { children: ReactNode }) {
             <SiteHeader />
             <div className="min-h-screen">{children}</div>
             <SiteFooter />
+            <GlobalChatWidget />
             <Scripts />
           </SmoothScroll>
         </ThemeProvider>

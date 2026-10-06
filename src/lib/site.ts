@@ -18,10 +18,10 @@ import {
   Phone,
   ChatCircleText,
   Browser,
-  ShareNetwork,
   Star,
   Sparkle,
   Question,
+  Robot,
 } from "@phosphor-icons/react";
 
 import type { ComponentType } from "react";
@@ -296,62 +296,113 @@ export const INCLUDED_GROUPS: { title: string; items: string[] }[] = [
 /* AI agents consumption */
 export interface AgentRate {
   unit: string;
-  price: string;
+  /** Prix client en euros (coût × marge). Converti en MAD à l'affichage. */
+  eur: number;
+}
+
+/** Taux de conversion indicatif pour l'affichage des consommations en dirhams. */
+export const EUR_TO_MAD = 10.8;
+
+/** "0,04 €" / "0,43 MAD" — euros jusqu'à 4 décimales, dirhams à 2 décimales. */
+export function formatRate(eur: number, region: "fr" | "ma") {
+  if (region === "ma") {
+    const mad = Math.max(0.01, Math.round(eur * EUR_TO_MAD * 100) / 100);
+    return (
+      new Intl.NumberFormat("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(mad) +
+      " MAD"
+    );
+  }
+  return (
+    new Intl.NumberFormat("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 4 }).format(eur) +
+    " €"
+  );
 }
 export interface AgentCard {
   name: string;
   icon: IconType;
   rates: AgentRate[];
 }
+/*
+ * Prix client = coût plateforme × marge (multiplicateur), repris du plan SaaS
+ * "Pro Clientx" → onglet Rebilling (crm.clientx.ai). Mettre à jour ici si la marge change.
+ *   Voice AI ............ 0,02 /min × 2   = 0,04 /min (+ téléphonie ci-dessous)
+ *   Téléphonie .......... appel sortant 0,014 × 2 = 0,028 /min · entrant 0,0085 × 2 = 0,017 /min
+ *                         SMS 0,0083 × 2 = 0,0166 /segment
+ *   Conversation AI ..... 0,02 /message × 2 = 0,04
+ *   WhatsApp ............ 0,074 × 1,9 = 0,1406 /template envoyé
+ *   Content AI .......... 1 000 mots 0,09 × 5 = 0,45 · image 0,06 × 5 = 0,30
+ *   Reviews AI .......... 0,01 /avis × 10 = 0,10
+ *   Workflow premium .... 0,01 /exécution × 5 = 0,05
+ *   Workflow modèles IA . GPT-4o mini, 750 000 mots : entrée 0,6 × 2 = 1,20 · sortie 2,4 × 2 = 4,80
+ *   Agent Studio ........ 0,25 / 750 000 tokens × 3 = 0,75
+ *   AI Studio ........... 2,11 / 1 M tokens × 5 = 10,55
+ *   Ask AI .............. 2,11 / 1 M tokens × 3 = 6,33
+ *   Email ............... 0,000675 × ~10 = 0,0068 /email · vérification 0,0025 × 2 = 0,005
+ */
 export const AI_AGENTS: AgentCard[] = [
   {
     name: "Voice AI",
     icon: Phone,
-    rates: [{ unit: "Par minute d'appel, entrant ou sortant", price: "0,45 €" }],
+    rates: [
+      { unit: "Par minute d'agent vocal IA", eur: 0.04 },
+      { unit: "+ minute d'appel sortant", eur: 0.028 },
+      { unit: "+ minute d'appel entrant", eur: 0.017 },
+    ],
   },
   {
     name: "Conversation AI",
     icon: ChatCircleText,
-    rates: [{ unit: "Par conversation WhatsApp", price: "0,37 €" }],
-  },
-  {
-    name: "Funnel & Web AI",
-    icon: Browser,
     rates: [
-      { unit: "Par funnel généré", price: "2,97 €" },
-      { unit: "Par 1 000 mots générés", price: "0,45 €" },
+      { unit: "Par message IA", eur: 0.04 },
+      { unit: "Par template WhatsApp envoyé", eur: 0.1406 },
     ],
   },
   {
-    name: "Social Media AI",
-    icon: ShareNetwork,
+    name: "Funnel, Web & Social AI",
+    icon: Browser,
     rates: [
-      { unit: "Par 1 000 mots générés", price: "0,45 €" },
-      { unit: "Par image générée", price: "0,30 €" },
+      { unit: "Par 1 000 mots générés", eur: 0.45 },
+      { unit: "Par image générée", eur: 0.3 },
     ],
   },
   {
     name: "Reviews AI",
     icon: Star,
-    rates: [
-      { unit: "Par réponse à un avis", price: "0,01 €" },
-      { unit: "Par message envoyé", price: "0,14 €" },
-    ],
+    rates: [{ unit: "Par réponse IA à un avis", eur: 0.1 }],
   },
   {
     name: "Workflow AI",
     icon: FlowArrow,
     rates: [
-      { unit: "Par message IA", price: "0,10 €" },
-      { unit: "Par SMS de relance", price: "0,04 €" },
+      { unit: "Par action premium exécutée", eur: 0.05 },
+      { unit: "Modèles IA, 750 000 mots en entrée", eur: 1.2 },
+      { unit: "Modèles IA, 750 000 mots en sortie", eur: 4.8 },
     ],
+  },
+  {
+    name: "Agent Studio",
+    icon: Robot,
+    rates: [{ unit: "Par 750 000 tokens", eur: 0.75 }],
   },
   {
     name: "AI Studio",
     icon: Sparkle,
-    rates: [{ unit: "Par million de tokens", price: "≈ 9,50 €" }],
+    rates: [{ unit: "Par million de tokens", eur: 10.55 }],
   },
-  { name: "Ask AI", icon: Question, rates: [{ unit: "Par million de tokens", price: "≈ 5,70 €" }] },
+  {
+    name: "Ask AI",
+    icon: Question,
+    rates: [{ unit: "Par million de tokens", eur: 6.33 }],
+  },
+  {
+    name: "SMS & Emails",
+    icon: EnvelopeSimple,
+    rates: [
+      { unit: "Par SMS (segment)", eur: 0.0166 },
+      { unit: "Par email envoyé", eur: 0.0068 },
+      { unit: "Par vérification d'email", eur: 0.005 },
+    ],
+  },
 ];
 
 /* ---------------- FAQ ---------------- */

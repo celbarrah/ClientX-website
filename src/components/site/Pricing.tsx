@@ -6,6 +6,8 @@ import {
   PLANS,
   INCLUDED_GROUPS,
   AI_AGENTS,
+  EUR_TO_MAD,
+  formatRate,
   type Region,
   type Plan,
   type PlanRegion,
@@ -321,8 +323,8 @@ export function PricingCards({ region, ctaTo = "/contact" }: { region: Region; c
 
 /* ---------- Home pricing section (light, on canvas) ---------- */
 export function PricingSection() {
-  // Prices are shown in euros for every visitor (France, Maroc and elsewhere).
-  const region: Region = "fr";
+  // Euros by default; visitors can switch to Moroccan dirham prices.
+  const [region, setRegion] = useState<Region>("fr");
   return (
     <section
       id="tarifs"
@@ -362,6 +364,9 @@ export function PricingSection() {
             Un seul CRM IA pour vos sites, vos contacts, vos emails, vos rendez-vous et vos
             automatisations.
           </p>
+        </div>
+        <div className="mt-8 flex justify-center">
+          <RegionSwitch region={region} setRegion={setRegion} />
         </div>
         <AnimatePresence mode="wait">
           <motion.div
@@ -461,7 +466,9 @@ export function IncludedGroupsSection() {
 }
 
 /* ---------- AI agents consumption — White theme ---------- */
-export function AIAgentsSection() {
+export function AIAgentsSection({ region = "fr" }: { region?: Region }) {
+  const isMa = region === "ma";
+  const rateLabel = new Intl.NumberFormat("fr-FR", { maximumFractionDigits: 2 }).format(EUR_TO_MAD);
   return (
     <section className="py-12 md:py-16" style={{ backgroundColor: "transparent" }}>
       <div className="container-x">
@@ -476,8 +483,10 @@ export function AIAgentsSection() {
             className="text-pretty mt-4 text-[17px] leading-relaxed"
             style={{ color: "var(--muted)", maxWidth: "44rem" }}
           >
-            Facturée en supplément de l'abonnement, débitée au fil de l'usage sur un solde prépayé.
-            Tarifs en euros, identiques en France et au Maroc.
+            Facturée en supplément de l'abonnement, débitée au fil de l'usage sur un solde prépayé.{" "}
+            {isMa
+              ? `Tarifs indiqués en dirhams, à titre indicatif (1 € ≈ ${rateLabel} MAD).`
+              : "Tarifs en euros, identiques en France et au Maroc."}
           </p>
         </div>
 
@@ -513,7 +522,7 @@ export function AIAgentsSection() {
                         className="shrink-0 text-[18px] font-bold"
                         style={{ color: "#000000", fontVariantNumeric: "tabular-nums" }}
                       >
-                        {rate.price}
+                        {formatRate(rate.eur, region)}
                       </span>
                     </div>
                   ))}
@@ -540,10 +549,12 @@ export function AIAgentsSection() {
             style={{ background: "#ffffff", borderColor: "var(--line-strong)" }}
           >
             <h3 className="mb-2 text-[16px] font-bold" style={{ color: "#000000" }}>
-              Tarifs en euros
+              {isMa ? "Équivalent en dirhams" : "Tarifs en euros"}
             </h3>
             <p className="text-[14px] leading-relaxed" style={{ color: "var(--muted)" }}>
-              Les tarifs de consommation sont exprimés en euros, pour la France comme pour le Maroc.
+              {isMa
+                ? `La consommation est débitée en euros. Les montants en dirhams sont convertis à titre indicatif (1 € ≈ ${rateLabel} MAD) et peuvent varier avec le taux de change.`
+                : "Les tarifs de consommation sont exprimés en euros, pour la France comme pour le Maroc."}
             </p>
           </div>
         </div>
