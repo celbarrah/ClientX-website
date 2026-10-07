@@ -8,6 +8,7 @@ import {
   IncludedGroupsSection,
   AIAgentsSection,
   RegionSwitch,
+  useMadAllowed,
   type Region,
 } from "../components/site/Pricing";
 import { FaqSection } from "../components/site/Faq";
@@ -27,7 +28,10 @@ export const Route = createFileRoute("/tarifs")({
 
 function TarifsPage() {
   // Euros by default; visitors can switch to Moroccan dirham prices.
-  const [region, setRegion] = useState<Region>("fr");
+  const [chosenRegion, setRegion] = useState<Region>("fr");
+  // MAD only for Moroccan IPs (shown by default, with a switch back to €); others: euros only.
+  const madAllowed = useMadAllowed(setRegion);
+  const region: Region = madAllowed ? chosenRegion : "fr";
 
   return (
     <PageMain>
@@ -55,7 +59,7 @@ function TarifsPage() {
       <section className="py-8 md:py-12">
         <div className="container-x">
           <div className="flex flex-col items-center text-center">
-            <RegionSwitch region={region} setRegion={setRegion} />
+            {madAllowed && <RegionSwitch region={region} setRegion={setRegion} />}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}

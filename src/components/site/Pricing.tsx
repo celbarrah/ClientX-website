@@ -49,6 +49,26 @@ export function useGeoRegion(setRegion: (r: Region) => void) {
   }, [setRegion]);
 }
 
+/* MAD prices are only shown to visitors with a Moroccan IP (fallback: Casablanca time zone).
+   Everyone else sees euros only, with no € / MAD switch. Starts hidden so non-Moroccan visitors
+   never see MAD, then switches Moroccan visitors to MAD once the lookup returns. */
+export function useMadAllowed(setRegion?: (r: Region) => void) {
+  const [allowed, setAllowed] = useState(false);
+  useEffect(() => {
+    let alive = true;
+    detectCountry().then((c) => {
+      if (!alive) return;
+      const isMa = c === "MA";
+      setAllowed(isMa);
+      if (isMa && setRegion) setRegion("ma");
+    });
+    return () => {
+      alive = false;
+    };
+  }, [setRegion]);
+  return allowed;
+}
+
 /* ---------- Light region switch (segmented pill) ---------- */
 export function RegionSwitch({
   region,
@@ -158,9 +178,7 @@ function PricingCard({ plan, region, ctaTo }: { plan: Plan; region: Region; ctaT
   const fg = "var(--ink)";
   const sub = featured ? "#2f5a3a" : "var(--muted)";
   const line = featured ? "rgba(22,120,40,0.18)" : "var(--line)";
-  const dailyStr = new Intl.NumberFormat("fr-FR", { maximumFractionDigits: 0 }).format(
-    dailyPrice(r.price),
-  );
+  const annualStr = new Intl.NumberFormat("fr-FR", { maximumFractionDigits: 0 }).format(r.price);
   return (
     <motion.div
       initial={{ opacity: 0, y: 18 }}
@@ -199,7 +217,7 @@ function PricingCard({ plan, region, ctaTo }: { plan: Plan; region: Region; ctaT
         {plan.desc}
       </p>
 
-      {/* Price — "À partir de X / jour" (derived from the annual price) */}
+      {/* Price — annual price "X € / an" */}
       <div className="relative mt-7">
         <span
           className="text-[11px] font-semibold uppercase tracking-[0.14em]"
@@ -219,13 +237,13 @@ function PricingCard({ plan, region, ctaTo }: { plan: Plan; region: Region; ctaT
               fontVariantNumeric: "tabular-nums",
             }}
           >
-            {dailyStr}
+            {annualStr}
             <span style={{ fontSize: "0.55em", letterSpacing: "-0.02em", marginLeft: "0.2em" }}>
               {r.currency === "€" ? "€" : "MAD"}
             </span>
           </span>
           <span className="whitespace-nowrap text-[15px] font-medium" style={{ color: sub }}>
-            / jour
+            / an
           </span>
         </div>
       </div>
@@ -325,6 +343,8 @@ export function PricingCards({ region, ctaTo = "/contact" }: { region: Region; c
 export function PricingSection() {
   // Euros by default; visitors can switch to Moroccan dirham prices.
   const [region, setRegion] = useState<Region>("fr");
+  const madAllowed = useMadAllowed(setRegion);
+  const shownRegion: Region = madAllowed ? region : "fr";
   return (
     <section
       id="tarifs"
@@ -365,19 +385,21 @@ export function PricingSection() {
             automatisations.
           </p>
         </div>
-        <div className="mt-8 flex justify-center">
-          <RegionSwitch region={region} setRegion={setRegion} />
-        </div>
+        {madAllowed && (
+          <div className="mt-8 flex justify-center">
+            <RegionSwitch region={region} setRegion={setRegion} />
+          </div>
+        )}
         <AnimatePresence mode="wait">
           <motion.div
-            key={region}
+            key={shownRegion}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.4, ease: EASE }}
             className="mt-12"
           >
-            <PricingCards region={region} ctaTo="/contact" />
+            <PricingCards region={shownRegion} ctaTo="/contact" />
           </motion.div>
         </AnimatePresence>
         <p className="mt-10 text-center text-[15px]" style={{ color: "var(--muted)" }}>
