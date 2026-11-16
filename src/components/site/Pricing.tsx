@@ -582,7 +582,7 @@ export function AIAgentsSection({ region = "fr" }: { region?: Region }) {
         </div>
         <p className="mt-8 text-center text-[13px]" style={{ color: "var(--muted)" }}>
           Les tarifs de consommation peuvent évoluer selon les conditions appliquées par les
-          fournisseurs. ClientX Ltd · WBX SARL
+          fournisseurs.
         </p>
       </div>
     </section>

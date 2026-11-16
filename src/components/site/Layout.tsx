@@ -274,7 +274,7 @@ export function SiteFooter() {
           className="mt-16 flex flex-col items-center justify-between gap-4 border-t pt-6 text-[12px] md:flex-row"
           style={{ borderColor: "rgba(10,30,15,0.08)", color: "var(--muted)" }}
         >
-          <p>© 2013–2026 ClientX AI by Webeuz. Tous droits réservés. · ClientX Ltd · WBX SARL</p>
+          <p>© 2013–2026 ClientX AI by Webeuz. Tous droits réservés.</p>
           <p className="hidden lg:block" style={{ color: "var(--faint)" }}>
             ClientX est propulsé par la puissance systémique All-in-One
           </p>
