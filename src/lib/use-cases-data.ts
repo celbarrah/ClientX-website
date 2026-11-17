@@ -20,6 +20,10 @@ export interface UseCaseDetail {
   status: string;
   summary: string;
   context: string;
+  /** Photo propre au client (sous /public). Prioritaire sur celle du secteur. */
+  image?: string;
+  /** Cadrage CSS object-position, ex. "50% 30%". */
+  imagePosition?: string;
   defis: string[];
   results: { label: string; val: string; pct?: string }[];
 }
@@ -30,6 +34,8 @@ export interface SectorData {
   desc: string;
   icon: IconType;
   badge: string;
+  /** Photo d'ambiance du secteur (chemin sous /public, ex. "/images/secteurs/fitness.jpg"). Optionnelle. */
+  image?: string;
   challenges: string[];
   solution: string;
   metrics: { label: string; value: string }[];
@@ -62,6 +68,8 @@ export const SECTORS_DATA: SectorData[] = [
       {
         initials: "SF",
         name: "Sofac",
+        image: "/images/secteurs/sofac.jpg",
+        imagePosition: "50% 50%",
         sub: "Crédit & Microcrédit",
         status: "Actif",
         summary:
@@ -82,6 +90,8 @@ export const SECTORS_DATA: SectorData[] = [
       {
         initials: "RM",
         name: "RMA",
+        image: "/images/secteurs/rma.jpg",
+        imagePosition: "50% 40%",
         sub: "Assurance",
         status: "Actif",
         summary:
@@ -102,6 +112,8 @@ export const SECTORS_DATA: SectorData[] = [
       {
         initials: "AM",
         name: "Atlas Montana",
+        image: "/images/secteurs/atlas-montana.jpg",
+        imagePosition: "50% 50%",
         sub: "Courtage d'assurance",
         status: "Actif",
         summary: "Courtier en assurance multi-risques spécialisé auto, habitation et prévoyance.",
@@ -143,6 +155,8 @@ export const SECTORS_DATA: SectorData[] = [
       {
         initials: "FD",
         name: "Ford",
+        image: "/images/secteurs/ford.jpg",
+        imagePosition: "50% 60%",
         sub: "Automobile & Concessions",
         status: "Actif",
         summary:
@@ -164,6 +178,8 @@ export const SECTORS_DATA: SectorData[] = [
       {
         initials: "OP",
         name: "Opel",
+        image: "/images/secteurs/opel.jpg",
+        imagePosition: "50% 35%",
         sub: "Automobile & Concessions",
         status: "Actif",
         summary:
@@ -207,6 +223,8 @@ export const SECTORS_DATA: SectorData[] = [
       {
         initials: "EF",
         name: "EduFormat Pro",
+        image: "/images/secteurs/eduformat-pro.jpg",
+        imagePosition: "50% 40%",
         sub: "Organisme de formation certifié Qualiopi",
         status: "Actif",
         summary:
@@ -227,6 +245,8 @@ export const SECTORS_DATA: SectorData[] = [
       {
         initials: "BT",
         name: "Bootcamp Tech Academy",
+        image: "/images/secteurs/bootcamp-tech-academy.jpg",
+        imagePosition: "50% 50%",
         sub: "Bootcamps intensifs Développeur & Data",
         status: "Actif",
         summary:
@@ -270,6 +290,8 @@ export const SECTORS_DATA: SectorData[] = [
       {
         initials: "NV",
         name: "NovaVibe Cosmétiques",
+        image: "/images/secteurs/novavibe.jpg",
+        imagePosition: "50% 50%",
         sub: "DNVB Skincare & Beauté bio",
         status: "Actif",
         summary:
@@ -290,6 +312,8 @@ export const SECTORS_DATA: SectorData[] = [
       {
         initials: "PB",
         name: "ProSupply B2B",
+        image: "/images/secteurs/prosupply-b2b.jpg",
+        imagePosition: "50% 60%",
         sub: "Grossiste équipement & fournitures pro",
         status: "Actif",
         summary:
@@ -333,6 +357,8 @@ export const SECTORS_DATA: SectorData[] = [
       {
         initials: "SE",
         name: "Soleil Energie Habitat",
+        image: "/images/secteurs/soleil-energie-habitat.jpg",
+        imagePosition: "50% 55%",
         sub: "Installateur Photovoltaïque & PAC",
         status: "Actif",
         summary:
@@ -353,6 +379,8 @@ export const SECTORS_DATA: SectorData[] = [
       {
         initials: "PW",
         name: "PureWater Solutions",
+        image: "/images/secteurs/purewater.jpg",
+        imagePosition: "50% 40%",
         sub: "Filtration d'eau & Adoucisseurs",
         status: "Actif",
         summary:
@@ -396,6 +424,8 @@ export const SECTORS_DATA: SectorData[] = [
       {
         initials: "CO",
         name: "Coralia Immobilier",
+        image: "/images/secteurs/coralia.jpg",
+        imagePosition: "50% 50%",
         sub: "Promotion immobilière",
         status: "Actif",
         summary:
@@ -416,6 +446,8 @@ export const SECTORS_DATA: SectorData[] = [
       {
         initials: "KL",
         name: "KLK",
+        image: "/images/secteurs/klk.jpg",
+        imagePosition: "50% 35%",
         sub: "Promotion immobilière",
         status: "Actif",
         summary:
@@ -459,6 +491,8 @@ export const SECTORS_DATA: SectorData[] = [
       {
         initials: "LB",
         name: "Le Bistrot Gourmand",
+        image: "/images/secteurs/bistrot-gourmand.jpg",
+        imagePosition: "50% 55%",
         sub: "Brasserie & Cuisine du terroir (120 couverts)",
         status: "Actif",
         summary:
@@ -479,6 +513,8 @@ export const SECTORS_DATA: SectorData[] = [
       {
         initials: "TE",
         name: "Traiteur Événementiel Saveurs",
+        image: "/images/secteurs/traiteur-saveurs.jpg",
+        imagePosition: "50% 45%",
         sub: "Traiteur mariages, séminaires & réceptions",
         status: "Actif",
         summary:
@@ -521,6 +557,8 @@ export const SECTORS_DATA: SectorData[] = [
     useCases: [
       {
         initials: "MF",
+        image: "/images/secteurs/morfit.jpg",
+        imagePosition: "50% 45%",
         name: "Morfit",
         sub: "Fitness & Cours d'essai",
         status: "Actif",
@@ -543,26 +581,31 @@ export const SECTORS_DATA: SectorData[] = [
       },
       {
         initials: "EP",
+        image: "/images/secteurs/epiltech.jpg",
+        imagePosition: "50% 40%",
         name: "Epiltech",
         sub: "Beauté · Épilation définitive & Soins",
         status: "Actif",
         summary:
-          "Epiltech exploite un réseau de 12 centres de beauté spécialisés dans l'épilation définitive, les soins du visage et l'amincissement.",
+          "Epiltech exploite un réseau de 11 centres de beauté spécialisés dans l'épilation définitive, les soins du visage et l'amincissement.",
         context:
-          "Remplir les bilans offerts sur les 12 centres du réseau et maximiser la signature de forfaits de cure dès la première consultation.",
+          "Remplir les bilans offerts sur les 11 centres du réseau et maximiser la signature de forfaits de cure dès la première consultation.",
         defis: [
           "Taux de présence au bilan initial gratuit",
           "Attribution géographique automatique du lead vers le centre le plus proche",
           "Suivi des séances espacées de 6 semaines pour éviter l'abandon de cure",
         ],
         results: [
-          { label: "Présence aux bilans", val: "88.2%" },
-          { label: "Forfaits cure signés", val: "+52%" },
-          { label: "Réseau équipé", val: "12 centres" },
+          { label: "Présence aux bilans", val: "88,2 %" },
+          { label: "Forfaits cure signés", val: "+52 %" },
+          { label: "Avis Google · note 4,45/5", val: "1 879", pct: "87 % d'avis positifs" },
+          { label: "Réseau équipé", val: "11 centres" },
         ],
       },
       {
         initials: "UG",
+        image: "/images/secteurs/ugolf.jpg",
+        imagePosition: "50% 60%",
         name: "UGolf",
         sub: "Golf & Initiations gratuites",
         status: "Actif",
