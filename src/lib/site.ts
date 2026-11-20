@@ -419,7 +419,7 @@ export const FAQS: { q: string; a: string }[] = [
   },
   {
     q: "Comment se passe la mise en place ?",
-    a: "Elle est accompagnée. Nous configurons avec vous vos soins, vos tarifs, vos horaires et le ton de l'assistante, puis nous vous formons à l'utiliser.",
+    a: "Elle est accompagnée et facturée 490 € HT, une seule fois. Nous configurons avec vous vos soins, vos tarifs, vos horaires et le ton de l'assistante, puis nous vous formons à l'utiliser.",
   },
   {
     q: "Puis-je tester avant de m'engager ?",

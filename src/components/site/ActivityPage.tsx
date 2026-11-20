@@ -1,108 +1,145 @@
 import { motion } from "framer-motion";
-import { CheckCircle, ChatCircleDots, ShieldCheck } from "@phosphor-icons/react";
-import { PageMain, FooterCTA, Eyebrow } from "./primitives";
+import { Plus, ShieldCheck } from "@phosphor-icons/react";
+import { PageMain, Eyebrow } from "./primitives";
 import { PrimaryButton, SecondaryButton } from "./Buttons";
+import {
+  SectionLabel,
+  SectionTitle,
+  Accent,
+  DarkBand,
+  LuxeClosing,
+  HAIR,
+  HAIR_DARK,
+  NEON,
+} from "./PremiumBlocks";
 import { TRIAL_URL, DEMO_URL } from "../../lib/site";
 import type { Activite } from "../../lib/activites-data";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
+const ARCH = "999px 999px 32px 32px";
 
 export function ActivityPage({ activite }: { activite: Activite }) {
   return (
     <PageMain>
       {/* Hero */}
-      <section className="relative overflow-hidden pb-12 pt-32 md:pb-16 md:pt-40">
+      <section className="relative overflow-hidden pb-16 pt-32 md:pb-24 md:pt-40">
         <div aria-hidden className="pointer-events-none absolute inset-0 grid-bg" />
-        <div className="container-x relative grid items-center gap-12 lg:grid-cols-[1.05fr_1fr]">
+        <div className="container-x relative grid items-center gap-16 lg:grid-cols-[1.1fr_0.9fr]">
           <div>
             <Eyebrow>Pour {activite.audience}</Eyebrow>
-            <h1
+            <motion.h1
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease: EASE, delay: 0.05 }}
               className="text-balance mt-6 font-semibold"
               style={{
                 fontFamily: "var(--font-display)",
-                fontSize: "clamp(2.4rem,4.8vw,4.2rem)",
-                letterSpacing: "-0.035em",
-                lineHeight: 1.04,
+                fontSize: "clamp(2.6rem,5.2vw,4.8rem)",
+                letterSpacing: "-0.045em",
+                lineHeight: 1,
                 color: "var(--ink)",
               }}
             >
-              {activite.heroTitle}{" "}
-              <span className="accent-serif" style={{ fontSize: "1.06em" }}>
-                {activite.heroAccent}
-              </span>
-            </h1>
-            <p
-              className="text-pretty mt-6 max-w-xl text-[17px] leading-relaxed"
+              {activite.heroTitle} <Accent>{activite.heroAccent}</Accent>
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: EASE, delay: 0.2 }}
+              className="text-pretty mt-7 max-w-xl text-[17px] leading-[1.7]"
               style={{ color: "var(--muted)" }}
             >
               {activite.heroText}
-            </p>
-            <div className="mt-9 flex flex-wrap items-center gap-3">
+            </motion.p>
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: EASE, delay: 0.3 }}
+              className="mt-9 flex flex-wrap items-center gap-3"
+            >
               <PrimaryButton to={TRIAL_URL}>Essai gratuit 14 jours</PrimaryButton>
               <SecondaryButton to={DEMO_URL}>Voir une démo</SecondaryButton>
-            </div>
+            </motion.div>
             <p
-              className="mt-5 flex items-center gap-2 text-[13px]"
+              className="mt-6 flex items-center gap-2 text-[13px]"
               style={{ color: "var(--muted)" }}
             >
-              <ShieldCheck className="h-4 w-4" weight="fill" style={{ color: "var(--green)" }} />
+              <ShieldCheck className="h-4 w-4" weight="fill" style={{ color: NEON }} />
               Zéro commission · Certifié ISO 9001
             </p>
           </div>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: EASE, delay: 0.1 }}
-            className="relative aspect-[4/3] overflow-hidden rounded-[32px]"
-            style={{ boxShadow: "0 40px 80px -36px rgba(16,60,28,0.45)" }}
+            transition={{ duration: 0.8, ease: EASE, delay: 0.15 }}
+            className="relative mx-auto w-full max-w-[440px] lg:max-w-none"
           >
-            <img
-              src={activite.image}
-              alt={activite.imageAlt}
-              className="h-full w-full object-cover"
-              style={{ objectPosition: activite.imagePosition ?? "50% 50%" }}
+            <div
+              aria-hidden
+              className="absolute inset-0 translate-x-4 translate-y-4"
+              style={{ border: `1px solid ${NEON}`, borderRadius: ARCH, opacity: 0.8 }}
             />
+            <div
+              className="relative aspect-[3/4] overflow-hidden"
+              style={{ borderRadius: ARCH, boxShadow: "0 50px 90px -40px rgba(7,16,10,0.55)" }}
+            >
+              <img
+                src={activite.image}
+                alt={activite.imageAlt}
+                className="h-full w-full object-cover"
+                style={{ objectPosition: activite.imagePosition ?? "50% 50%" }}
+              />
+              <div
+                aria-hidden
+                className="absolute inset-0"
+                style={{
+                  background:
+                    "linear-gradient(180deg, rgba(7,16,10,0) 60%, rgba(7,16,10,0.45) 100%)",
+                }}
+              />
+            </div>
           </motion.div>
         </div>
       </section>
 
-      {/* Pains */}
-      <section className="container-x py-14 md:py-20">
-        <div className="max-w-2xl">
-          <Eyebrow>Ce que vous vivez</Eyebrow>
-          <h2
-            className="text-balance mt-5 font-semibold"
-            style={{
-              fontFamily: "var(--font-display)",
-              fontSize: "clamp(1.9rem,3.4vw,2.8rem)",
-              letterSpacing: "-0.03em",
-              color: "var(--ink)",
-            }}
-          >
-            Ce qui vous fait perdre des clientes
-          </h2>
-        </div>
-        <div className="mt-10 grid gap-5 md:grid-cols-3">
+      {/* (01) Ce que vous vivez */}
+      <section className="container-x py-16 md:py-24">
+        <SectionLabel index="01">Ce que vous vivez</SectionLabel>
+        <SectionTitle className="mt-6 max-w-3xl">
+          Ce qui vous fait <Accent>perdre des clientes.</Accent>
+        </SectionTitle>
+        <div className="mt-14 border-t" style={{ borderColor: HAIR }}>
           {activite.pains.map((p, i) => (
-            <div key={i} className="glass-card !rounded-3xl p-7">
+            <div
+              key={i}
+              className="grid gap-3 border-b py-9 md:grid-cols-[100px_1fr_1.2fr] md:items-baseline md:gap-10 md:py-11"
+              style={{ borderColor: HAIR }}
+            >
               <span
-                className="text-[12px] font-semibold"
-                style={{ color: "var(--green-text)", fontVariantNumeric: "tabular-nums" }}
-              >
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <h3
-                className="mt-3 text-[19px] font-semibold"
+                className="font-medium"
                 style={{
                   fontFamily: "var(--font-display)",
-                  letterSpacing: "-0.02em",
+                  fontSize: "2.6rem",
+                  lineHeight: 0.9,
+                  letterSpacing: "-0.06em",
+                  color: "var(--green-text)",
+                }}
+              >
+                0{i + 1}
+              </span>
+              <h3
+                className="text-[24px] font-medium md:text-[30px]"
+                style={{
+                  fontFamily: "var(--font-display)",
+                  letterSpacing: "-0.04em",
                   color: "var(--ink)",
+                  lineHeight: 1.1,
                 }}
               >
                 {p.title}
               </h3>
-              <p className="mt-2 text-[15px] leading-relaxed" style={{ color: "var(--muted)" }}>
+              <p className="max-w-xl text-[16px] leading-relaxed" style={{ color: "var(--muted)" }}>
                 {p.text}
               </p>
             </div>
@@ -110,57 +147,42 @@ export function ActivityPage({ activite }: { activite: Activite }) {
         </div>
       </section>
 
-      {/* Solutions */}
-      <section className="container-x py-6 md:py-10">
-        <div
-          className="rounded-[36px] px-6 py-12 md:px-12 md:py-16"
-          style={{
-            background:
-              "radial-gradient(60% 80% at 0% 0%, rgba(50,220,50,0.14), transparent 70%), linear-gradient(180deg,#f3f7f1,#eaf1e7)",
-            boxShadow: "0 0 0 1px rgba(10,30,15,0.06)",
-          }}
-        >
-          <div className="max-w-2xl">
-            <Eyebrow>Ce que fait ClientX</Eyebrow>
-            <h2
-              className="text-balance mt-5 font-semibold"
-              style={{
-                fontFamily: "var(--font-display)",
-                fontSize: "clamp(1.9rem,3.4vw,2.8rem)",
-                letterSpacing: "-0.03em",
-                color: "var(--ink)",
-              }}
-            >
-              Ce que nous faisons pour {activite.audience}
-            </h2>
-          </div>
-          <div className="mt-10 grid gap-x-10 gap-y-8 md:grid-cols-2">
+      {/* (02) Ce que fait ClientX */}
+      <section className="container-x py-4 md:py-8">
+        <DarkBand className="px-6 py-14 md:px-14 md:py-20">
+          <SectionLabel index="02" dark>
+            Ce que fait ClientX
+          </SectionLabel>
+          <SectionTitle dark className="mt-6 max-w-3xl">
+            Ce que nous faisons pour <Accent dark>{activite.audience}.</Accent>
+          </SectionTitle>
+          <div className="mt-14 grid gap-x-14 md:grid-cols-2">
             {activite.solutions.map((s, i) => (
-              <div key={i} className="flex gap-4">
+              <div
+                key={i}
+                className="grid grid-cols-[44px_1fr] gap-5 border-t py-8"
+                style={{ borderColor: HAIR_DARK }}
+              >
                 <span
-                  className="mt-1 grid h-9 w-9 shrink-0 place-items-center rounded-full"
-                  style={{ background: "#fff", boxShadow: "0 0 0 1px rgba(10,30,15,0.08)" }}
+                  className="grid h-10 w-10 place-items-center rounded-full text-[12px] font-semibold"
+                  style={{
+                    border: "1px solid rgba(50,220,50,0.55)",
+                    color: NEON,
+                    fontFamily: "var(--font-mono)",
+                  }}
                 >
-                  <CheckCircle
-                    className="h-5 w-5"
-                    weight="fill"
-                    style={{ color: "var(--green)" }}
-                  />
+                  0{i + 1}
                 </span>
                 <div>
                   <h3
-                    className="text-[18px] font-semibold"
-                    style={{
-                      fontFamily: "var(--font-display)",
-                      letterSpacing: "-0.02em",
-                      color: "var(--ink)",
-                    }}
+                    className="text-[22px] font-medium text-white"
+                    style={{ fontFamily: "var(--font-display)", letterSpacing: "-0.035em" }}
                   >
                     {s.title}
                   </h3>
                   <p
-                    className="mt-1.5 text-[15px] leading-relaxed"
-                    style={{ color: "var(--muted)" }}
+                    className="mt-2.5 text-[15.5px] leading-relaxed"
+                    style={{ color: "rgba(255,255,255,0.66)" }}
                   >
                     {s.text}
                   </p>
@@ -168,49 +190,50 @@ export function ActivityPage({ activite }: { activite: Activite }) {
               </div>
             ))}
           </div>
-        </div>
+        </DarkBand>
       </section>
 
-      {/* Proof (chiffres réels uniquement) */}
+      {/* (03) Preuve (chiffres réels uniquement) */}
       {activite.proof && (
-        <section className="container-x py-14 md:py-20">
-          <div className="max-w-2xl">
-            <Eyebrow>Un centre qui l'utilise</Eyebrow>
-            <h2
-              className="text-balance mt-5 font-semibold"
-              style={{
-                fontFamily: "var(--font-display)",
-                fontSize: "clamp(1.9rem,3.4vw,2.8rem)",
-                letterSpacing: "-0.03em",
-                color: "var(--ink)",
-              }}
-            >
-              {activite.proof.client} en chiffres
-            </h2>
-            <p className="mt-4 text-[16px] leading-relaxed" style={{ color: "var(--muted)" }}>
-              {activite.proof.intro}
-            </p>
-          </div>
-          <dl className="mt-10 grid grid-cols-2 gap-4 lg:grid-cols-4">
+        <section className="container-x py-16 md:py-24">
+          <SectionLabel index="03">Un centre qui l'utilise</SectionLabel>
+          <SectionTitle className="mt-6 max-w-3xl">
+            {activite.proof.client} <Accent>en chiffres.</Accent>
+          </SectionTitle>
+          <p
+            className="mt-5 max-w-2xl text-[16.5px] leading-relaxed"
+            style={{ color: "var(--muted)" }}
+          >
+            {activite.proof.intro}
+          </p>
+          <dl
+            className="mt-14 grid grid-cols-2 border-t lg:grid-cols-4 lg:divide-x"
+            style={{ borderColor: HAIR }}
+          >
             {activite.proof.stats.map((s, i) => (
-              <div key={i} className="glass-card !rounded-3xl p-6">
+              <div
+                key={i}
+                className="border-b py-8 pr-4 lg:border-b-0 lg:px-8 lg:first:pl-0"
+                style={{ borderColor: HAIR }}
+              >
                 <dd
-                  className="font-semibold"
+                  className="font-medium"
                   style={{
                     fontFamily: "var(--font-display)",
-                    fontSize: "clamp(2rem,3.4vw,3rem)",
-                    letterSpacing: "-0.04em",
+                    fontSize: "clamp(2.4rem,4.4vw,4rem)",
+                    letterSpacing: "-0.05em",
+                    lineHeight: 1,
                     color: "var(--ink)",
                     fontVariantNumeric: "tabular-nums",
                   }}
                 >
                   {s.value}
                 </dd>
-                <dt className="mt-2 text-[14px]" style={{ color: "var(--ink)" }}>
+                <dt className="mt-4 text-[14.5px]" style={{ color: "var(--ink)" }}>
                   {s.label}
                 </dt>
                 {s.note && (
-                  <p className="mt-1 text-[12.5px]" style={{ color: "var(--muted)" }}>
+                  <p className="mt-1.5 text-[12.5px]" style={{ color: "var(--green-text)" }}>
                     {s.note}
                   </p>
                 )}
@@ -222,32 +245,35 @@ export function ActivityPage({ activite }: { activite: Activite }) {
 
       {/* FAQ */}
       <section className="container-x py-10 md:py-16">
-        <div className="mx-auto max-w-3xl">
-          <h2
-            className="font-semibold"
-            style={{
-              fontFamily: "var(--font-display)",
-              fontSize: "clamp(1.7rem,3vw,2.4rem)",
-              letterSpacing: "-0.03em",
-              color: "var(--ink)",
-            }}
-          >
-            Questions fréquentes
-          </h2>
-          <div className="mt-6 divide-y border-y" style={{ borderColor: "var(--line-strong)" }}>
+        <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+          <div>
+            <SectionLabel index={activite.proof ? "04" : "03"}>FAQ</SectionLabel>
+            <SectionTitle className="mt-6">
+              Questions <Accent>fréquentes.</Accent>
+            </SectionTitle>
+          </div>
+          <div className="border-t" style={{ borderColor: HAIR }}>
             {activite.faq.map((f, i) => (
-              <details key={i} className="group py-5">
+              <details key={i} className="group border-b py-6" style={{ borderColor: HAIR }}>
                 <summary
-                  className="flex cursor-pointer list-none items-center justify-between gap-6 text-[17px] font-medium"
-                  style={{ color: "var(--ink)" }}
+                  className="flex cursor-pointer list-none items-center justify-between gap-6 text-[19px] font-medium"
+                  style={{
+                    color: "var(--ink)",
+                    fontFamily: "var(--font-display)",
+                    letterSpacing: "-0.03em",
+                  }}
                 >
                   {f.q}
-                  <ChatCircleDots
-                    className="h-5 w-5 shrink-0 transition-transform group-open:rotate-12"
+                  <Plus
+                    className="h-5 w-5 shrink-0 transition-transform duration-300 group-open:rotate-45"
+                    weight="light"
                     style={{ color: "var(--green-text)" }}
                   />
                 </summary>
-                <p className="mt-3 text-[15px] leading-relaxed" style={{ color: "var(--muted)" }}>
+                <p
+                  className="mt-4 max-w-2xl text-[15.5px] leading-relaxed"
+                  style={{ color: "var(--muted)" }}
+                >
                   {f.a}
                 </p>
               </details>
@@ -256,7 +282,7 @@ export function ActivityPage({ activite }: { activite: Activite }) {
         </div>
       </section>
 
-      <FooterCTA />
+      <LuxeClosing />
     </PageMain>
   );
 }

@@ -17,14 +17,16 @@ import { PageMain } from "../components/site/primitives";
 import { BookingWidget } from "../components/site/BookingWidget";
 
 export const Route = createFileRoute("/contact")({
+  validateSearch: (search: Record<string, unknown>): { offre?: string } =>
+    typeof search["offre"] === "string" ? { offre: search["offre"] } : {},
   head: () => ({
     ...pageSeo({
-      title: "Réserver une Démo — ClientX AI",
+      title: "Essai gratuit 14 jours ou démo — ClientX AI",
       description:
-        "Prenez rendez-vous pour une démonstration en direct avec un eXpert ClientX AI et configurez votre plateforme tout-en-un.",
+        "Démarrez votre essai gratuit de 14 jours, ou réservez une démonstration en direct avec l'équipe ClientX AI. Zéro commission.",
       path: "/contact",
     }),
-    scripts: [jsonLd(breadcrumbLd([{ name: "Réserver une Démo", path: "/contact" }]))],
+    scripts: [jsonLd(breadcrumbLd([{ name: "Contact", path: "/contact" }]))],
   }),
   component: ContactPage,
 });
@@ -32,18 +34,18 @@ export const Route = createFileRoute("/contact")({
 const WHY_POINTS = [
   {
     icon: MagnifyingGlass,
-    title: "Audit offert",
-    text: "Audit offert de vos outils actuels et opportunités d'économies immédiates.",
+    title: "Votre activité, pas une démo générique",
+    text: "Nous partons de votre métier : soins, tarifs, horaires et clientes.",
   },
   {
     icon: MonitorPlay,
-    title: "Démo en direct",
-    text: "Démonstration en direct du CRM IA ClientX AI.",
+    title: "Voir l'assistante en action",
+    text: "Nous montrons comment elle répond sur Instagram, Facebook et WhatsApp.",
   },
   {
     icon: Wrench,
-    title: "Installation 1:1",
-    text: "Accompagnement 1:1 pour l'installation technique de votre compte.",
+    title: "Mise en place accompagnée",
+    text: "Nous configurons votre assistante avec vous (490 € HT, une seule fois).",
   },
 ];
 
@@ -71,13 +73,11 @@ const CONTACT_INFO = [
   },
 ];
 
-const TRUST_PILLS = [
-  "Confirmation instantanée par email & SMS",
-  "Sans engagement de durée",
-  "Entreprise certifiée ISO 9001",
-];
+const TRUST_PILLS = ["Essai gratuit 14 jours", "Zéro commission", "Certifié ISO 9001"];
 
 function ContactPage() {
+  const { offre } = Route.useSearch();
+  const isTrial = offre === "essai-gratuit-14-jours";
   return (
     <PageMain>
       <div className="container-x grid gap-8 pt-32 md:pt-36 lg:grid-cols-[380px_1fr] lg:items-start">
@@ -99,20 +99,30 @@ function ContactPage() {
               color: "var(--ink)",
             }}
           >
-            Réservez votre Démo <span style={{ color: "var(--green-text)" }}>Personnalisée</span>
+            {isTrial ? (
+              <>
+                Démarrez votre <span style={{ color: "var(--green-text)" }}>essai gratuit</span> de
+                14 jours
+              </>
+            ) : (
+              <>
+                Réservez votre <span style={{ color: "var(--green-text)" }}>démo en direct</span>
+              </>
+            )}
           </h1>
           <p
             className="text-pretty mt-5 max-w-[34rem] text-[16px] leading-relaxed"
             style={{ color: "var(--muted)" }}
           >
-            Sélectionnez la date et l'horaire de votre choix pour échanger sur vos processus et
-            configurer votre plateforme unifiée.
+            {isTrial
+              ? "Choisissez un créneau : l'équipe ClientX lance votre essai et configure votre assistante avec vous."
+              : "Choisissez un créneau pour voir ClientX fonctionner sur votre propre activité."}
           </p>
 
           {/* Why points */}
           <div className="card mt-8 p-6">
             <h2 className="mb-4 text-[15px] font-semibold" style={{ color: "var(--ink)" }}>
-              Pourquoi réserver votre Démo ?
+              Ce qui se passe pendant l'échange
             </h2>
             <div className="space-y-4">
               {WHY_POINTS.map((p) => (

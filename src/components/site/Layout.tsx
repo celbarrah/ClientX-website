@@ -4,64 +4,72 @@ import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-
 import { List, X, CaretUp, CaretDown, ArrowRight } from "@phosphor-icons/react";
 import { CLIENTX_LOGO, TRIAL_URL, DEMO_URL } from "../../lib/site";
 import { ACTIVITES_MENU } from "../../lib/activites-data";
+import { FONCTIONNALITES } from "../../lib/features-data";
 import { PrimaryButton } from "./Buttons";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-/* Menu : Activités (menu déroulant) · Fonctionnalités · Tarifs · Clients */
+/* Menu : Activités (menu déroulant) · Fonctionnalités (menu déroulant) · Tarifs · Clients */
 const NAV = [
-  { label: "Fonctionnalités", to: "/fonctionnalites", match: "/fonctionnalites" },
   { label: "Tarifs", to: "/tarifs", match: "/tarifs" },
   { label: "Clients", to: "/cas-clients", match: "/cas-clients" },
 ];
 
-function ActivitesDropdown({ active }: { active: boolean }) {
+function NavDropdown({ kind, active }: { kind: "activites" | "fonctionnalites"; active: boolean }) {
+  const label = kind === "activites" ? "Activités" : "Fonctionnalités";
+  const items =
+    kind === "activites"
+      ? ACTIVITES_MENU.map((a) => ({ slug: a.slug, label: a.label }))
+      : FONCTIONNALITES.map((x) => ({ slug: x.slug, label: x.name }));
+  const triggerClass =
+    "flex items-center gap-1 rounded-full px-4 py-2 text-[14px] font-medium transition-colors hover:bg-black/[0.04]";
+  const triggerStyle = {
+    color: active ? "var(--ink)" : "var(--muted)",
+    background: active ? "rgba(0,0,0,0.05)" : undefined,
+  };
+  const itemClass =
+    "block rounded-2xl px-4 py-2.5 text-[14px] font-medium transition-colors hover:bg-black/[0.04]";
+  const caret = (
+    <CaretDown className="h-3.5 w-3.5 transition-transform group-hover:rotate-180" weight="bold" />
+  );
   return (
     <div className="group relative">
-      <button
-        type="button"
-        aria-haspopup="true"
-        className="flex items-center gap-1 rounded-full px-4 py-2 text-[14px] font-medium transition-colors hover:bg-black/[0.04]"
-        style={{
-          color: active ? "var(--ink)" : "var(--muted)",
-          background: active ? "rgba(0,0,0,0.05)" : undefined,
-        }}
-      >
-        Activités
-        <CaretDown
-          className="h-3.5 w-3.5 transition-transform group-hover:rotate-180"
-          weight="bold"
-        />
-      </button>
+      {kind === "fonctionnalites" ? (
+        <Link to="/fonctionnalites" className={triggerClass} style={triggerStyle}>
+          {label}
+          {caret}
+        </Link>
+      ) : (
+        <button type="button" aria-haspopup="true" className={triggerClass} style={triggerStyle}>
+          {label}
+          {caret}
+        </button>
+      )}
       <div className="invisible absolute left-0 top-full z-10 pt-3 opacity-0 transition-all duration-150 group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
         <ul
-          className="w-60 rounded-3xl bg-white p-2"
-          style={{
-            boxShadow: "0 0 0 1px rgba(10,30,15,0.08), 0 24px 48px -16px rgba(16,60,28,0.28)",
-          }}
+          className="w-64 rounded-3xl bg-white p-2"
+          style={{ boxShadow: "0 0 0 1px rgba(10,30,15,0.08), 0 24px 48px -16px rgba(16,60,28,0.28)" }}
         >
-          {ACTIVITES_MENU.map((a) => (
-            <li key={a.slug}>
-              {a.live ? (
+          {items.map((it) => (
+            <li key={it.slug}>
+              {kind === "activites" ? (
                 <Link
                   to="/activites/$slug"
-                  params={{ slug: a.slug }}
-                  className="block rounded-2xl px-4 py-2.5 text-[14px] font-medium transition-colors hover:bg-black/[0.04]"
+                  params={{ slug: it.slug }}
+                  className={itemClass}
                   style={{ color: "var(--ink)" }}
                 >
-                  {a.label}
+                  {it.label}
                 </Link>
               ) : (
-                <span
-                  className="flex items-center justify-between rounded-2xl px-4 py-2.5 text-[14px]"
-                  style={{ color: "var(--faint)" }}
-                  aria-disabled="true"
+                <Link
+                  to="/fonctionnalites/$slug"
+                  params={{ slug: it.slug }}
+                  className={itemClass}
+                  style={{ color: "var(--ink)" }}
                 >
-                  {a.label}
-                  <span className="rounded-full bg-black/[0.05] px-2 py-0.5 text-[10.5px] font-semibold">
-                    Bientôt
-                  </span>
-                </span>
+                  {it.label}
+                </Link>
               )}
             </li>
           ))}
@@ -113,7 +121,8 @@ export function SiteHeader() {
         </Link>
 
         <nav className="hidden items-center gap-1 md:flex">
-          <ActivitesDropdown active={pathname.startsWith("/activites")} />
+          <NavDropdown kind="activites" active={pathname.startsWith("/activites")} />
+          <NavDropdown kind="fonctionnalites" active={pathname.startsWith("/fonctionnalites")} />
           {NAV.map((n) => {
             const active = pathname === n.match;
             return (
@@ -184,35 +193,41 @@ export function SiteHeader() {
             </div>
             <div className="mt-12 flex flex-col gap-5">
               <div>
-                <p
-                  className="label mb-3"
-                  style={{ color: "var(--faint)", letterSpacing: "0.14em" }}
-                >
+                <p className="label mb-3" style={{ color: "var(--faint)", letterSpacing: "0.14em" }}>
                   Activités
                 </p>
                 <div className="flex flex-wrap gap-2">
-                  {ACTIVITES_MENU.map((a) =>
-                    a.live ? (
-                      <Link
-                        key={a.slug}
-                        to="/activites/$slug"
-                        params={{ slug: a.slug }}
-                        onClick={() => setMenuOpen(false)}
-                        className="rounded-full border px-4 py-2 text-[15px] font-medium"
-                        style={{ borderColor: "var(--line-strong)", color: "var(--ink)" }}
-                      >
-                        {a.label}
-                      </Link>
-                    ) : (
-                      <span
-                        key={a.slug}
-                        className="rounded-full border px-4 py-2 text-[15px]"
-                        style={{ borderColor: "var(--line)", color: "var(--faint)" }}
-                      >
-                        {a.label} · bientôt
-                      </span>
-                    ),
-                  )}
+                  {ACTIVITES_MENU.map((a) => (
+                    <Link
+                      key={a.slug}
+                      to="/activites/$slug"
+                      params={{ slug: a.slug }}
+                      onClick={() => setMenuOpen(false)}
+                      className="rounded-full border px-4 py-2 text-[15px] font-medium"
+                      style={{ borderColor: "var(--line-strong)", color: "var(--ink)" }}
+                    >
+                      {a.label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <p className="label mb-3" style={{ color: "var(--faint)", letterSpacing: "0.14em" }}>
+                  Fonctionnalités
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {FONCTIONNALITES.map((x) => (
+                    <Link
+                      key={x.slug}
+                      to="/fonctionnalites/$slug"
+                      params={{ slug: x.slug }}
+                      onClick={() => setMenuOpen(false)}
+                      className="rounded-full border px-4 py-2 text-[15px] font-medium"
+                      style={{ borderColor: "var(--line-strong)", color: "var(--ink)" }}
+                    >
+                      {x.name}
+                    </Link>
+                  ))}
                 </div>
               </div>
               {NAV.map((n, i) => (
@@ -327,7 +342,7 @@ export function SiteFooter() {
               Activités
             </h4>
             <ul className="mt-5 space-y-3.5 text-[14.5px]">
-              {ACTIVITES_MENU.filter((a) => a.live).map((a) => (
+              {ACTIVITES_MENU.map((a) => (
                 <li key={a.slug}>
                   <Link
                     to="/activites/$slug"

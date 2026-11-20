@@ -550,3 +550,23 @@
     0 0 0 1px rgba(10, 30, 15, 0.06),
     0 8px 24px -12px rgba(16, 60, 28, 0.2);
 }
+
+/* Bandeau défilant (pages beauté) */
+@keyframes luxe-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.luxe-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: luxe-marquee 48s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .luxe-marquee-track {
+    animation: none;
+  }
+}

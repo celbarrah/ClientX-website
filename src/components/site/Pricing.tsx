@@ -328,6 +328,48 @@ function Row({ label, value }: { label: string; value: string }) {
 }
 
 /* ---------- Pricing cards grid (shared) ---------- */
+
+/* ---------- Mise en place accompagnée : 490 € HT (une seule fois) ---------- */
+export function SetupFee() {
+  return (
+    <div
+      className="mx-auto mt-12 grid max-w-5xl items-center gap-6 border-y py-8 md:grid-cols-[auto_1fr_auto] md:gap-12"
+      style={{ borderColor: "rgba(10,30,15,0.14)" }}
+    >
+      <div>
+        <p
+          className="text-[11px] uppercase tracking-[0.16em]"
+          style={{ fontFamily: "var(--font-mono)", color: "var(--green-text)" }}
+        >
+          Mise en place accompagnée
+        </p>
+        <p
+          className="mt-2 font-medium"
+          style={{
+            fontFamily: "var(--font-display)",
+            fontSize: "clamp(2.4rem,4vw,3.4rem)",
+            letterSpacing: "-0.05em",
+            lineHeight: 1,
+            color: "var(--ink)",
+          }}
+        >
+          490 € <span style={{ fontSize: "0.5em", letterSpacing: "-0.02em" }}>HT</span>
+        </p>
+      </div>
+      <p className="max-w-xl text-[15.5px] leading-relaxed" style={{ color: "var(--muted)" }}>
+        Une seule fois, pour toutes les formules. Nous configurons avec vous vos soins, vos tarifs,
+        vos horaires et le ton de vos messages.
+      </p>
+      <span
+        className="text-[11px] uppercase tracking-[0.16em]"
+        style={{ fontFamily: "var(--font-mono)", color: "var(--muted)" }}
+      >
+        Zéro commission
+      </span>
+    </div>
+  );
+}
+
 export function PricingCards({ region, ctaTo = TRIAL_URL }: { region: Region; ctaTo?: string }) {
   return (
     <div className="relative grid grid-cols-1 gap-5 lg:grid-cols-3 lg:items-stretch lg:gap-6">
@@ -401,6 +443,7 @@ export function PricingSection() {
             className="mt-12"
           >
             <PricingCards region={shownRegion} ctaTo={TRIAL_URL} />
+            <SetupFee />
           </motion.div>
         </AnimatePresence>
         <p className="mt-10 text-center text-[15px]" style={{ color: "var(--muted)" }}>

@@ -14,12 +14,13 @@ import { Route as AgentsIaRouteImport } from './routes/agents-ia'
 import { Route as CasClientsRouteImport } from './routes/cas-clients'
 import { Route as ConfidentialiteRouteImport } from './routes/confidentialite'
 import { Route as ContactRouteImport } from './routes/contact'
-import { Route as FonctionnalitesRouteImport } from './routes/fonctionnalites'
 import { Route as MentionsLegalesRouteImport } from './routes/mentions-legales'
 import { Route as TarifsRouteImport } from './routes/tarifs'
 import { Route as ThankYouGbRouteImport } from './routes/thank-you-gb'
 import { Route as ThankYouMaRouteImport } from './routes/thank-you-ma'
 import { Route as ActivitesSlugRouteImport } from './routes/activites.$slug'
+import { Route as FonctionnalitesIndexRouteImport } from './routes/fonctionnalites.index'
+import { Route as FonctionnalitesSlugRouteImport } from './routes/fonctionnalites.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -44,11 +45,6 @@ const ConfidentialiteRoute = ConfidentialiteRouteImport.update({
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FonctionnalitesRoute = FonctionnalitesRouteImport.update({
-  id: '/fonctionnalites',
-  path: '/fonctionnalites',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MentionsLegalesRoute = MentionsLegalesRouteImport.update({
@@ -76,6 +72,16 @@ const ActivitesSlugRoute = ActivitesSlugRouteImport.update({
   path: '/activites/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FonctionnalitesIndexRoute = FonctionnalitesIndexRouteImport.update({
+  id: '/fonctionnalites/',
+  path: '/fonctionnalites/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FonctionnalitesSlugRoute = FonctionnalitesSlugRouteImport.update({
+  id: '/fonctionnalites/$slug',
+  path: '/fonctionnalites/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -83,12 +89,13 @@ export interface FileRoutesByFullPath {
   '/cas-clients': typeof CasClientsRoute
   '/confidentialite': typeof ConfidentialiteRoute
   '/contact': typeof ContactRoute
-  '/fonctionnalites': typeof FonctionnalitesRoute
   '/mentions-legales': typeof MentionsLegalesRoute
   '/tarifs': typeof TarifsRoute
   '/thank-you-gb': typeof ThankYouGbRoute
   '/thank-you-ma': typeof ThankYouMaRoute
   '/activites/$slug': typeof ActivitesSlugRoute
+  '/fonctionnalites/$slug': typeof FonctionnalitesSlugRoute
+  '/fonctionnalites/': typeof FonctionnalitesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -96,12 +103,13 @@ export interface FileRoutesByTo {
   '/cas-clients': typeof CasClientsRoute
   '/confidentialite': typeof ConfidentialiteRoute
   '/contact': typeof ContactRoute
-  '/fonctionnalites': typeof FonctionnalitesRoute
   '/mentions-legales': typeof MentionsLegalesRoute
   '/tarifs': typeof TarifsRoute
   '/thank-you-gb': typeof ThankYouGbRoute
   '/thank-you-ma': typeof ThankYouMaRoute
   '/activites/$slug': typeof ActivitesSlugRoute
+  '/fonctionnalites/$slug': typeof FonctionnalitesSlugRoute
+  '/fonctionnalites': typeof FonctionnalitesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -110,12 +118,13 @@ export interface FileRoutesById {
   '/cas-clients': typeof CasClientsRoute
   '/confidentialite': typeof ConfidentialiteRoute
   '/contact': typeof ContactRoute
-  '/fonctionnalites': typeof FonctionnalitesRoute
   '/mentions-legales': typeof MentionsLegalesRoute
   '/tarifs': typeof TarifsRoute
   '/thank-you-gb': typeof ThankYouGbRoute
   '/thank-you-ma': typeof ThankYouMaRoute
   '/activites/$slug': typeof ActivitesSlugRoute
+  '/fonctionnalites/$slug': typeof FonctionnalitesSlugRoute
+  '/fonctionnalites/': typeof FonctionnalitesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -125,12 +134,13 @@ export interface FileRouteTypes {
     | '/cas-clients'
     | '/confidentialite'
     | '/contact'
-    | '/fonctionnalites'
     | '/mentions-legales'
     | '/tarifs'
     | '/thank-you-gb'
     | '/thank-you-ma'
     | '/activites/$slug'
+    | '/fonctionnalites/$slug'
+    | '/fonctionnalites/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -138,12 +148,13 @@ export interface FileRouteTypes {
     | '/cas-clients'
     | '/confidentialite'
     | '/contact'
-    | '/fonctionnalites'
     | '/mentions-legales'
     | '/tarifs'
     | '/thank-you-gb'
     | '/thank-you-ma'
     | '/activites/$slug'
+    | '/fonctionnalites/$slug'
+    | '/fonctionnalites'
   id:
     | '__root__'
     | '/'
@@ -151,12 +162,13 @@ export interface FileRouteTypes {
     | '/cas-clients'
     | '/confidentialite'
     | '/contact'
-    | '/fonctionnalites'
     | '/mentions-legales'
     | '/tarifs'
     | '/thank-you-gb'
     | '/thank-you-ma'
     | '/activites/$slug'
+    | '/fonctionnalites/$slug'
+    | '/fonctionnalites/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -165,12 +177,13 @@ export interface RootRouteChildren {
   CasClientsRoute: typeof CasClientsRoute
   ConfidentialiteRoute: typeof ConfidentialiteRoute
   ContactRoute: typeof ContactRoute
-  FonctionnalitesRoute: typeof FonctionnalitesRoute
   MentionsLegalesRoute: typeof MentionsLegalesRoute
   TarifsRoute: typeof TarifsRoute
   ThankYouGbRoute: typeof ThankYouGbRoute
   ThankYouMaRoute: typeof ThankYouMaRoute
   ActivitesSlugRoute: typeof ActivitesSlugRoute
+  FonctionnalitesSlugRoute: typeof FonctionnalitesSlugRoute
+  FonctionnalitesIndexRoute: typeof FonctionnalitesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -210,13 +223,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/fonctionnalites': {
-      id: '/fonctionnalites'
-      path: '/fonctionnalites'
-      fullPath: '/fonctionnalites'
-      preLoaderRoute: typeof FonctionnalitesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/mentions-legales': {
       id: '/mentions-legales'
       path: '/mentions-legales'
@@ -252,6 +258,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ActivitesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/fonctionnalites/': {
+      id: '/fonctionnalites/'
+      path: '/fonctionnalites'
+      fullPath: '/fonctionnalites/'
+      preLoaderRoute: typeof FonctionnalitesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/fonctionnalites/$slug': {
+      id: '/fonctionnalites/$slug'
+      path: '/fonctionnalites/$slug'
+      fullPath: '/fonctionnalites/$slug'
+      preLoaderRoute: typeof FonctionnalitesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -261,12 +281,13 @@ const rootRouteChildren: RootRouteChildren = {
   CasClientsRoute: CasClientsRoute,
   ConfidentialiteRoute: ConfidentialiteRoute,
   ContactRoute: ContactRoute,
-  FonctionnalitesRoute: FonctionnalitesRoute,
   MentionsLegalesRoute: MentionsLegalesRoute,
   TarifsRoute: TarifsRoute,
   ThankYouGbRoute: ThankYouGbRoute,
   ThankYouMaRoute: ThankYouMaRoute,
   ActivitesSlugRoute: ActivitesSlugRoute,
+  FonctionnalitesSlugRoute: FonctionnalitesSlugRoute,
+  FonctionnalitesIndexRoute: FonctionnalitesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -1,8 +1,9 @@
 import { PricingSection } from "./site/Pricing";
 import { FaqSection } from "./site/Faq";
-import { FooterCTA } from "./site/primitives";
+import { LuxeClosing } from "./site/PremiumBlocks";
 import {
   BeautyHero,
+  BeautyMarquee,
   BeautyDifferences,
   BeautyActivities,
   BeautySteps,
@@ -13,13 +14,14 @@ export function Homepage() {
   return (
     <main className="overflow-x-clip">
       <BeautyHero />
+      <BeautyMarquee />
       <BeautyDifferences />
       <BeautyActivities />
       <BeautySteps />
       <BeautyProof />
       <PricingSection />
       <FaqSection />
-      <FooterCTA />
+      <LuxeClosing />
     </main>
   );
 }

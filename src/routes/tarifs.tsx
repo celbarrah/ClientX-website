@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { PageHero, PageMain, FooterCTA, SpotlightPanel } from "../components/site/primitives";
 import {
   PricingCards,
+  SetupFee,
   IncludedGroupsSection,
   AIAgentsSection,
   RegionSwitch,
@@ -69,6 +70,7 @@ function TarifsPage() {
               className="mt-12 w-full"
             >
               <PricingCards region={region} ctaTo={TRIAL_URL} />
+              <SetupFee />
             </motion.div>
             <p className="mt-8 text-[13px]" style={{ color: "var(--muted)" }}>
               Prix par an, paiement annuel uniquement. « 2 × » indique le paiement échelonné en deux

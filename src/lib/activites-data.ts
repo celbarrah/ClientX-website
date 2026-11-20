@@ -1,7 +1,6 @@
 /**
  * Pages métiers (« Activités »). V1 : institut, laser & épilation, coiffure.
- * Les 5 autres métiers du menu (spa & massage, amincissement, onglerie, barbier, fitness)
- * sont listés dans ACTIVITES_MENU mais pas encore publiés.
+ * Les 8 métiers du menu sont publiés.
  *
  * Vocabulaire : parler le langage des professionnelles (clientes, soins, cabine, planning),
  * pas celui de l'informatique (pas de funnel, pipeline, workflow, « +20 outils »).
@@ -17,12 +16,12 @@ export interface ActiviteMenuItem {
 export const ACTIVITES_MENU: ActiviteMenuItem[] = [
   { slug: "coiffure", label: "Coiffure", live: true },
   { slug: "institut", label: "Institut de beauté", live: true },
-  { slug: "spa-massage", label: "Spa & massage", live: false },
+  { slug: "spa-massage", label: "Spa & massage", live: true },
   { slug: "laser-epilation", label: "Laser & épilation", live: true },
-  { slug: "amincissement", label: "Amincissement", live: false },
-  { slug: "onglerie", label: "Onglerie", live: false },
-  { slug: "barbier", label: "Barbier", live: false },
-  { slug: "fitness", label: "Fitness", live: false },
+  { slug: "amincissement", label: "Amincissement", live: true },
+  { slug: "onglerie", label: "Onglerie", live: true },
+  { slug: "barbier", label: "Barbier", live: true },
+  { slug: "fitness", label: "Fitness", live: true },
 ];
 
 export interface ActiviteBlock {
@@ -247,6 +246,311 @@ export const ACTIVITES: Activite[] = [
       {
         q: "Mes clientes savent-elles qu'elles parlent à une assistante ?",
         a: "Vous décidez de la présentation. L'assistante peut se présenter comme l'assistante de votre salon, et vous reprenez la conversation quand vous le souhaitez.",
+      },
+      {
+        q: "Puis-je tester avant de m'engager ?",
+        a: "Oui, l'essai gratuit dure 14 jours.",
+      },
+    ],
+  },
+  {
+    slug: "spa-massage",
+    name: "Spa & massage",
+    audience: "les spas et les salons de massage",
+    seoTitle: "Logiciel pour spa et salon de massage — ClientX AI",
+    seoDescription:
+      "Une IA qui répond à vos clientes sur Instagram, Facebook et WhatsApp, remplit vos cabines et relance celles qui ne reviennent plus. Zéro commission. Essai gratuit 14 jours.",
+    heroTitle: "Des cabines réservées,",
+    heroAccent: "des clientes apaisées.",
+    heroText:
+      "Pendant un soin, vous ne répondez pas. ClientX répond à vos clientes sur Instagram, Facebook et WhatsApp, remplit vos cabines et relance celles qui ne sont pas revenues. Sans commission sur vos soins.",
+    image: "/images/activites/spa-massage.jpg",
+    imageAlt: "Massage relaxant dans un spa",
+    imagePosition: "50% 40%",
+    pains: [
+      {
+        title: "Impossible de répondre en plein soin",
+        text: "Une cliente écrit pendant un massage. Quand vous répondez, elle a déjà réservé ailleurs.",
+      },
+      {
+        title: "Des cabines vides",
+        text: "Annulations tardives, créneaux creux en semaine : chaque cabine vide est du chiffre perdu.",
+      },
+      {
+        title: "Des premières visites sans suite",
+        text: "Une cliente qui a aimé son soin ne revient pas toujours seule. Sans relance, elle passe à autre chose.",
+      },
+    ],
+    solutions: [
+      {
+        title: "Une assistante qui répond pour vous",
+        text: "Sur Instagram, Facebook et WhatsApp, elle présente vos soins et vos tarifs, et propose un créneau libre.",
+      },
+      {
+        title: "Des rappels qui limitent les absences",
+        text: "Chaque cliente reçoit un rappel avant son soin et peut confirmer ou déplacer en un message.",
+      },
+      {
+        title: "Les clientes reviennent",
+        text: "Un message personnalisé part aux clientes que vous n'avez pas vues depuis un moment.",
+      },
+      {
+        title: "Zéro commission",
+        text: "Vous payez un abonnement fixe. Aucun pourcentage n'est prélevé sur vos prestations.",
+      },
+    ],
+    faq: [
+      {
+        q: "Pour un petit spa, est-ce adapté ?",
+        a: "Oui. C'est justement quand l'équipe est en cabine que les messages restent sans réponse.",
+      },
+      {
+        q: "L'assistante peut-elle parler de mes forfaits ?",
+        a: "Oui. Vous choisissez les soins et les forfaits qu'elle présente, et ce qu'elle ne doit jamais promettre.",
+      },
+      {
+        q: "Puis-je tester avant de m'engager ?",
+        a: "Oui, l'essai gratuit dure 14 jours.",
+      },
+    ],
+  },
+  {
+    slug: "amincissement",
+    name: "Amincissement",
+    audience: "les centres d'amincissement",
+    seoTitle: "Logiciel pour centre d'amincissement — ClientX AI",
+    seoDescription:
+      "Des bilans offerts bien remplis et des cures suivies jusqu'au bout. L'IA répond sur Instagram, Facebook et WhatsApp. Zéro commission. Essai gratuit 14 jours.",
+    heroTitle: "Des bilans honorés,",
+    heroAccent: "des cures suivies jusqu'au bout.",
+    heroText:
+      "Dans l'amincissement, tout se joue sur le premier bilan puis sur la régularité des séances. ClientX remplit vos bilans, rappelle chaque cliente et la relance entre deux séances.",
+    image: "/images/activites/amincissement.jpg",
+    imageAlt: "Soin d'amincissement en cabine",
+    imagePosition: "50% 50%",
+    pains: [
+      {
+        title: "Des bilans offerts non honorés",
+        text: "La cliente réserve le bilan gratuit, puis oublie ou hésite. La place reste vide.",
+      },
+      {
+        title: "Des cures abandonnées",
+        text: "Quand les séances s'espacent, certaines clientes arrêtent avant la fin du forfait.",
+      },
+      {
+        title: "Un suivi qui prend du temps",
+        text: "Rappeler chaque cliente au bon moment est difficile quand vous êtes en cabine.",
+      },
+    ],
+    solutions: [
+      {
+        title: "Des bilans remplis et confirmés",
+        text: "L'assistante répond sur Instagram, Facebook et WhatsApp, réserve le bilan et envoie un rappel la veille.",
+      },
+      {
+        title: "Chaque séance rappelée",
+        text: "Rappel avant chaque séance et message de suivi entre deux séances pour que la cure aille jusqu'au bout.",
+      },
+      {
+        title: "Des avis Google sans y penser",
+        text: "Après une étape clé de la cure, la cliente reçoit une demande d'avis.",
+      },
+      {
+        title: "Zéro commission",
+        text: "Vous payez un abonnement fixe. Aucun pourcentage n'est prélevé sur vos prestations.",
+      },
+    ],
+    faq: [
+      {
+        q: "Comment sont gérés les forfaits de cure ?",
+        a: "Nous configurons avec vous vos soins et vos forfaits, pour que les messages et les rappels correspondent à votre façon de travailler.",
+      },
+      {
+        q: "Cela fonctionne-t-il avec plusieurs centres ?",
+        a: "Oui. Chaque centre garde son planning, et les demandes peuvent être dirigées vers le plus proche.",
+      },
+      {
+        q: "Puis-je tester avant de m'engager ?",
+        a: "Oui, l'essai gratuit dure 14 jours.",
+      },
+    ],
+  },
+  {
+    slug: "onglerie",
+    name: "Onglerie",
+    audience: "les ongleries et les prothésistes ongulaires",
+    seoTitle: "Logiciel pour onglerie — ClientX AI",
+    seoDescription:
+      "Une IA qui répond à vos clientes sur Instagram, Facebook et WhatsApp, propose des créneaux et relance pour les remplissages. Zéro commission. Essai gratuit 14 jours.",
+    heroTitle: "Les mains dans les ongles,",
+    heroAccent: "les messages sont traités.",
+    heroText:
+      "Les clientes vous écrivent sur Instagram avec leurs idées de nail art. ClientX répond, propose un créneau et rappelle chaque cliente quand c'est l'heure de reprendre rendez-vous. Sans commission.",
+    image: "/images/activites/onglerie.jpg",
+    imageAlt: "Prothésiste ongulaire pendant une pose",
+    imagePosition: "50% 40%",
+    pains: [
+      {
+        title: "Les messages arrivent pendant la pose",
+        text: "Vous avez les mains occupées, et la cliente attend une réponse pour réserver.",
+      },
+      {
+        title: "Un créneau annulé coûte cher",
+        text: "Une pose dure longtemps : une annulation tardive laisse un trou dans la journée.",
+      },
+      {
+        title: "Les remplissages se perdent",
+        text: "Sans rappel, une cliente oublie de reprendre rendez-vous et part ailleurs.",
+      },
+    ],
+    solutions: [
+      {
+        title: "Une assistante qui répond pour vous",
+        text: "Elle répond aux questions sur vos prestations et vos tarifs, et propose un créneau libre.",
+      },
+      {
+        title: "Des rappels avant chaque rendez-vous",
+        text: "Chaque cliente confirme ou déplace en un message, ce qui limite les absences.",
+      },
+      {
+        title: "Le bon message au bon moment",
+        text: "Quand c'est l'heure de reprendre rendez-vous, un message personnalisé est envoyé à la cliente.",
+      },
+      {
+        title: "Zéro commission",
+        text: "Vous payez un abonnement fixe. Aucun pourcentage n'est prélevé sur vos prestations.",
+      },
+    ],
+    faq: [
+      {
+        q: "Je travaille seule, est-ce adapté ?",
+        a: "Oui. C'est quand on est seule que les messages restent le plus souvent sans réponse.",
+      },
+      {
+        q: "L'assistante gère-t-elle les photos d'inspiration ?",
+        a: "Vous reprenez la conversation quand vous le souhaitez, par exemple pour valider un modèle.",
+      },
+      {
+        q: "Puis-je tester avant de m'engager ?",
+        a: "Oui, l'essai gratuit dure 14 jours.",
+      },
+    ],
+  },
+  {
+    slug: "barbier",
+    name: "Barbier",
+    audience: "les barbiers",
+    seoTitle: "Logiciel pour barbier — ClientX AI",
+    seoDescription:
+      "Une IA qui répond à vos clients sur Instagram, Facebook et WhatsApp, remplit votre planning et relance ceux qui espacent leurs visites. Zéro commission. Essai gratuit 14 jours.",
+    heroTitle: "Un fauteuil toujours occupé,",
+    heroAccent: "sans pause pour répondre.",
+    heroText:
+      "Quand vous avez le rasoir à la main, vous ne répondez pas aux messages. ClientX répond à vos clients sur Instagram, Facebook et WhatsApp, propose un créneau et relance ceux qui espacent leurs visites.",
+    image: "/images/activites/barbier.jpg",
+    imageAlt: "Barbier avec dégradé et barbe",
+    imagePosition: "50% 40%",
+    pains: [
+      {
+        title: "Pas le temps de répondre",
+        text: "Les demandes arrivent toute la journée, et vous ne pouvez pas lâcher le rasoir.",
+      },
+      {
+        title: "Les rendez-vous non honorés",
+        text: "Un client qui ne vient pas, c'est un créneau perdu pour tout le monde.",
+      },
+      {
+        title: "Les habitués s'espacent",
+        text: "Une coupe toutes les trois semaines devient une coupe toutes les six, sans que vous le voyiez.",
+      },
+    ],
+    solutions: [
+      {
+        title: "Les messages ont une réponse",
+        text: "L'assistante répond sur Instagram, Facebook et WhatsApp et propose un créneau libre.",
+      },
+      {
+        title: "Des rappels qui réduisent les absences",
+        text: "Chaque client reçoit un rappel et peut confirmer ou déplacer en un message.",
+      },
+      {
+        title: "Les habitués reviennent",
+        text: "Un message personnalisé part à ceux qui n'ont pas pris rendez-vous depuis un moment.",
+      },
+      {
+        title: "Zéro commission",
+        text: "Vous payez un abonnement fixe. Aucun pourcentage n'est prélevé sur vos prestations.",
+      },
+    ],
+    faq: [
+      {
+        q: "Mes clients savent-ils qu'ils parlent à une assistante ?",
+        a: "Vous décidez de la présentation. L'assistante peut se présenter comme l'assistante de votre salon.",
+      },
+      {
+        q: "Je suis seul dans mon salon, est-ce adapté ?",
+        a: "Oui, c'est même le cas où il est le plus utile de ne pas manquer un message.",
+      },
+      {
+        q: "Puis-je tester avant de m'engager ?",
+        a: "Oui, l'essai gratuit dure 14 jours.",
+      },
+    ],
+  },
+  {
+    slug: "fitness",
+    name: "Fitness",
+    audience: "les salles de sport et les studios",
+    seoTitle: "Logiciel pour salle de sport et studio — ClientX AI",
+    seoDescription:
+      "Des séances d'essai bien remplies, des inscriptions et des adhérents relancés. L'IA répond sur Instagram, Facebook et WhatsApp. Zéro commission. Essai gratuit 14 jours.",
+    heroTitle: "Des séances d'essai remplies,",
+    heroAccent: "des adhérents qui restent.",
+    heroText:
+      "ClientX répond aux prospects sur Instagram, Facebook et WhatsApp, réserve les séances d'essai, rappelle la veille et relance les adhérents qui ne viennent plus. Sans commission.",
+    image: "/images/activites/fitness.jpg",
+    imageAlt: "Coach sportive accompagnant une cliente",
+    imagePosition: "50% 35%",
+    pains: [
+      {
+        title: "Des séances d'essai sans suite",
+        text: "Un prospect réserve, puis ne vient pas. Le créneau est perdu et le contact aussi.",
+      },
+      {
+        title: "Des visiteurs qui ne s'inscrivent pas",
+        text: "Sans relance après la séance d'essai, beaucoup d'entre eux ne donnent plus de nouvelles.",
+      },
+      {
+        title: "Des adhérents qui disparaissent",
+        text: "Quand un adhérent vient moins souvent, vous le voyez trop tard.",
+      },
+    ],
+    solutions: [
+      {
+        title: "Les séances d'essai se remplissent",
+        text: "L'assistante répond aux prospects, réserve la séance d'essai et envoie un rappel la veille.",
+      },
+      {
+        title: "Chaque visite est relancée",
+        text: "Après la séance d'essai, un message propose de s'inscrire.",
+      },
+      {
+        title: "Les adhérents inactifs reviennent",
+        text: "Un message personnalisé part à ceux que vous n'avez pas vus depuis un moment.",
+      },
+      {
+        title: "Zéro commission",
+        text: "Vous payez un abonnement fixe. Aucun pourcentage n'est prélevé sur vos prestations.",
+      },
+    ],
+    faq: [
+      {
+        q: "Cela fonctionne-t-il pour un studio de coaching ?",
+        a: "Oui. Nous configurons vos séances, vos horaires et vos offres d'essai avec vous.",
+      },
+      {
+        q: "L'assistante peut-elle demander des avis Google ?",
+        a: "Oui. Après une séance ou une étape, une demande d'avis peut être envoyée.",
       },
       {
         q: "Puis-je tester avant de m'engager ?",

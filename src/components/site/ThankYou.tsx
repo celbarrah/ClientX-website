@@ -151,7 +151,7 @@ export function ThankYouPage({ market }: { market: "ma" | "gb" }) {
           className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row"
         >
           <PrimaryButton to="/">Retour à l'accueil</PrimaryButton>
-          <SecondaryButton to="/agents-ia">Découvrir nos Agents</SecondaryButton>
+          <SecondaryButton to="/fonctionnalites">Découvrir les fonctionnalités</SecondaryButton>
         </motion.div>
       </section>
     </main>
