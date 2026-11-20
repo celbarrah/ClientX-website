@@ -122,32 +122,59 @@ export function DarkBand({
   );
 }
 
-/** Bandeau défilant : les mots-clés de la promesse. */
-export function LuxeMarquee({ items }: { items: string[] }) {
-  const row = [...items, ...items];
+export interface ClientLogo {
+  name: string;
+  /** Chemin du fichier logo sous /public. Sans logo : le nom s'affiche en texte (provisoire). */
+  src?: string;
+}
+
+/** Bandeau défilant de logos clients. */
+export function LogoMarquee({ logos, label }: { logos: ClientLogo[]; label?: string }) {
+  // Répété pour que le défilement soit continu même avec peu de logos.
+  const row = [...logos, ...logos, ...logos];
   return (
-    <div className="overflow-hidden border-y py-5" style={{ borderColor: HAIR }} aria-hidden>
-      <div className="luxe-marquee-track">
-        {[0, 1].map((k) => (
-          <div key={k} className="flex shrink-0 items-center">
-            {row.map((t, i) => (
-              <span key={`${k}-${i}`} className="flex items-center">
-                <span
-                  className="px-8 text-[26px] font-medium md:text-[32px]"
-                  style={{
-                    fontFamily: "var(--font-display)",
-                    letterSpacing: "-0.04em",
-                    color: "var(--ink)",
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  {t}
+    <div className="border-y py-7" style={{ borderColor: HAIR }}>
+      {label && (
+        <p
+          className="container-x mb-5 text-center text-[11px] uppercase tracking-[0.16em]"
+          style={{ fontFamily: "var(--font-mono)", color: "var(--muted)" }}
+        >
+          {label}
+        </p>
+      )}
+      <div className="overflow-hidden" aria-hidden>
+        <div className="luxe-marquee-track">
+          {[0, 1].map((k) => (
+            <div key={k} className="flex shrink-0 items-center">
+              {row.map((l, i) => (
+                <span key={`${k}-${i}`} className="flex items-center px-10 md:px-14">
+                  {l.src ? (
+                    <img
+                      src={l.src}
+                      alt={l.name}
+                      loading="lazy"
+                      className="h-9 w-auto max-w-[170px] object-contain md:h-11"
+                      style={{ filter: "grayscale(1)", opacity: 0.8 }}
+                    />
+                  ) : (
+                    <span
+                      className="text-[26px] font-semibold md:text-[32px]"
+                      style={{
+                        fontFamily: "var(--font-display)",
+                        letterSpacing: "-0.045em",
+                        color: "var(--ink)",
+                        opacity: 0.8,
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {l.name}
+                    </span>
+                  )}
                 </span>
-                <span style={{ color: NEON, fontSize: "12px" }}>●</span>
-              </span>
-            ))}
-          </div>
-        ))}
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

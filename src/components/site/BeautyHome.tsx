@@ -15,7 +15,8 @@ import {
   SectionTitle,
   Accent,
   DarkBand,
-  LuxeMarquee,
+  LogoMarquee,
+  type ClientLogo,
   HAIR,
   HAIR_DARK,
   NEON,
@@ -144,20 +145,17 @@ export function BeautyHero() {
   );
 }
 
+/* Ils nous font confiance. Seul le logo Epil Tech est disponible pour l'instant ;
+   Morfit et UGolf s'affichent en texte en attendant leurs fichiers logo
+   (à déposer dans public/images/clients/ puis renseigner `src`). */
+const BEAUTY_CLIENT_LOGOS: ClientLogo[] = [
+  { name: "Epil Tech", src: "/images/clients/epil-tech.webp" },
+  { name: "Morfit" },
+  { name: "UGolf" },
+];
+
 export function BeautyMarquee() {
-  return (
-    <LuxeMarquee
-      items={[
-        "Instagram",
-        "Facebook",
-        "WhatsApp",
-        "Avis Google",
-        "Zéro commission",
-        "Clientes fidèles",
-        "Planning plein",
-      ]}
-    />
-  );
+  return <LogoMarquee logos={BEAUTY_CLIENT_LOGOS} label="Ils nous font confiance" />;
 }
 
 /* ---------- Ce que les logiciels de réservation ne font pas ---------- */

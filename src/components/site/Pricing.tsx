@@ -384,10 +384,8 @@ export function PricingCards({ region, ctaTo = TRIAL_URL }: { region: Region; ct
 
 /* ---------- Home pricing section (light, on canvas) ---------- */
 export function PricingSection() {
-  // Euros by default; visitors can switch to Moroccan dirham prices.
-  const [region, setRegion] = useState<Region>("fr");
-  const madAllowed = useMadAllowed(setRegion);
-  const shownRegion: Region = madAllowed ? region : "fr";
+  // Tarifs France uniquement (en euros) : pas de choix France / Maroc.
+  const shownRegion: Region = "fr";
   return (
     <section
       id="tarifs"
@@ -428,11 +426,6 @@ export function PricingSection() {
             pendant 14 jours.
           </p>
         </div>
-        {madAllowed && (
-          <div className="mt-8 flex justify-center">
-            <RegionSwitch region={region} setRegion={setRegion} />
-          </div>
-        )}
         <AnimatePresence mode="wait">
           <motion.div
             key={shownRegion}
@@ -552,7 +545,7 @@ export function AIAgentsSection({ region = "fr" }: { region?: Region }) {
             Facturée en supplément de l'abonnement, débitée au fil de l'usage sur un solde prépayé.{" "}
             {isMa
               ? `Tarifs indiqués en dirhams, à titre indicatif (1 € ≈ ${rateLabel} MAD).`
-              : "Tarifs en euros, identiques en France et au Maroc."}
+              : "Tarifs en euros."}
           </p>
         </div>
 
@@ -620,7 +613,7 @@ export function AIAgentsSection({ region = "fr" }: { region?: Region }) {
             <p className="text-[14px] leading-relaxed" style={{ color: "var(--muted)" }}>
               {isMa
                 ? `La consommation est débitée en euros. Les montants en dirhams sont convertis à titre indicatif (1 € ≈ ${rateLabel} MAD) et peuvent varier avec le taux de change.`
-                : "Les tarifs de consommation sont exprimés en euros, pour la France comme pour le Maroc."}
+                : "Les tarifs de consommation sont exprimés en euros."}
             </p>
           </div>
         </div>
