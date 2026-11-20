@@ -6,7 +6,6 @@ import {
   PLANS,
   INCLUDED_GROUPS,
   AI_AGENTS,
-  EUR_TO_MAD,
   formatRate,
   TRIAL_URL,
   type Region,
@@ -14,125 +13,14 @@ import {
   type PlanRegion,
 } from "../../lib/site";
 import { Link } from "@tanstack/react-router";
-import { detectCountry } from "../../hooks/useGeoCalendar";
 
 export type { Region };
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-/* ---------- Region helpers ---------- */
-/** First guess before the IP lookup returns: Moroccan time zone → MAD, else €. */
-export function defaultRegion(): Region {
-  try {
-    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
-    if (tz.includes("Casablanca")) return "ma";
-  } catch {
-    /* ignore */
-  }
-  return "fr";
-}
-
-/* Location-based pricing: visitors in Morocco (IP) see MAD, everyone else sees €. */
-export function useGeoRegion(setRegion: (r: Region) => void) {
-  useEffect(() => {
-    try {
-      localStorage.removeItem("clientx-region"); // clear any old manual choice
-    } catch {
-      /* ignore */
-    }
-    let alive = true;
-    detectCountry().then((c) => {
-      if (alive && c) setRegion(c === "MA" ? "ma" : "fr");
-    });
-    return () => {
-      alive = false;
-    };
-  }, [setRegion]);
-}
-
-/* MAD prices are only shown to visitors with a Moroccan IP (fallback: Casablanca time zone).
-   Everyone else sees euros only, with no € / MAD switch. Starts hidden so non-Moroccan visitors
-   never see MAD, then switches Moroccan visitors to MAD once the lookup returns. */
-export function useMadAllowed(setRegion?: (r: Region) => void) {
-  const [allowed, setAllowed] = useState(false);
-  useEffect(() => {
-    let alive = true;
-    detectCountry().then((c) => {
-      if (!alive) return;
-      const isMa = c === "MA";
-      setAllowed(isMa);
-      if (isMa && setRegion) setRegion("ma");
-    });
-    return () => {
-      alive = false;
-    };
-  }, [setRegion]);
-  return allowed;
-}
-
-/* ---------- Light region switch (segmented pill) ---------- */
-export function RegionSwitch({
-  region,
-  setRegion,
-}: {
-  region: Region;
-  setRegion: (r: Region) => void;
-}) {
-  const opts: { id: Region; label: string }[] = [
-    { id: "fr", label: "France (€)" },
-    { id: "ma", label: "Maroc (MAD)" },
-  ];
-  return (
-    <div
-      className="inline-flex rounded-full border p-1"
-      style={{
-        borderColor: "var(--line-strong)",
-        background: "var(--surface)",
-        boxShadow: "var(--shadow-sm)",
-      }}
-    >
-      {opts.map((o) => {
-        const isActive = region === o.id;
-        return (
-          <button
-            key={o.id}
-            onClick={() => {
-              setRegion(o.id);
-              try {
-                localStorage.setItem("clientx-region", o.id);
-              } catch {
-                /* ignore */
-              }
-            }}
-            className="relative rounded-full px-4 py-2 text-[13px] font-semibold transition-colors"
-            style={{ color: isActive ? "var(--ink)" : "var(--muted)" }}
-          >
-            {isActive && (
-              <motion.span
-                layoutId="region-pill-light"
-                className="absolute inset-0 rounded-full"
-                style={{
-                  background: "var(--surface)",
-                  boxShadow: "var(--shadow-sm)",
-                  border: "1px solid var(--line-strong)",
-                }}
-                transition={{ type: "spring", stiffness: 400, damping: 30 }}
-              />
-            )}
-            <span className="relative whitespace-nowrap">{o.label}</span>
-          </button>
-        );
-      })}
-    </div>
-  );
-}
-
 /* ---------- French number formatting ---------- */
-function fmtPrice(n: number, currency: "€" | "MAD") {
-  return (
-    new Intl.NumberFormat("fr-FR", { maximumFractionDigits: 0 }).format(n) +
-    (currency === "€" ? " €" : " MAD")
-  );
+function fmtPrice(n: number) {
+  return new Intl.NumberFormat("fr-FR", { maximumFractionDigits: 0 }).format(n) + " €";
 }
 /** Annual price → "per day" price, rounded up to a whole unit (990 € / an → 3 € / jour). */
 export function dailyPrice(annual: number) {
@@ -140,7 +28,7 @@ export function dailyPrice(annual: number) {
 }
 
 /* ---------- Animated price counter (ink) ---------- */
-function PriceCounter({ value, currency }: { value: number; currency: "€" | "MAD" }) {
+function PriceCounter({ value }: { value: number }) {
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.4 });
   const [display, setDisplay] = useState(value);
@@ -167,7 +55,7 @@ function PriceCounter({ value, currency }: { value: number; currency: "€" | "M
 
   return (
     <span ref={ref} style={{ fontVariantNumeric: "tabular-nums", color: "var(--ink)" }}>
-      {fmtPrice(display, currency)}
+      {fmtPrice(display)}
     </span>
   );
 }
@@ -240,7 +128,7 @@ function PricingCard({ plan, region, ctaTo }: { plan: Plan; region: Region; ctaT
           >
             {annualStr}
             <span style={{ fontSize: "0.55em", letterSpacing: "-0.02em", marginLeft: "0.2em" }}>
-              {r.currency === "€" ? "€" : "MAD"}
+              €
             </span>
           </span>
           <span className="whitespace-nowrap text-[15px] font-medium" style={{ color: sub }}>
@@ -525,9 +413,7 @@ export function IncludedGroupsSection() {
 }
 
 /* ---------- AI agents consumption — White theme ---------- */
-export function AIAgentsSection({ region = "fr" }: { region?: Region }) {
-  const isMa = region === "ma";
-  const rateLabel = new Intl.NumberFormat("fr-FR", { maximumFractionDigits: 2 }).format(EUR_TO_MAD);
+export function AIAgentsSection(_props: { region?: Region } = {}) {
   return (
     <section className="py-12 md:py-16" style={{ backgroundColor: "transparent" }}>
       <div className="container-x">
@@ -543,9 +429,7 @@ export function AIAgentsSection({ region = "fr" }: { region?: Region }) {
             style={{ color: "var(--muted)", maxWidth: "44rem" }}
           >
             Facturée en supplément de l'abonnement, débitée au fil de l'usage sur un solde prépayé.{" "}
-            {isMa
-              ? `Tarifs indiqués en dirhams, à titre indicatif (1 € ≈ ${rateLabel} MAD).`
-              : "Tarifs en euros."}
+            Tarifs en euros.
           </p>
         </div>
 
@@ -581,7 +465,7 @@ export function AIAgentsSection({ region = "fr" }: { region?: Region }) {
                         className="shrink-0 text-[18px] font-bold"
                         style={{ color: "#000000", fontVariantNumeric: "tabular-nums" }}
                       >
-                        {formatRate(rate.eur, region)}
+                        {formatRate(rate.eur)}
                       </span>
                     </div>
                   ))}
@@ -608,12 +492,10 @@ export function AIAgentsSection({ region = "fr" }: { region?: Region }) {
             style={{ background: "#ffffff", borderColor: "var(--line-strong)" }}
           >
             <h3 className="mb-2 text-[16px] font-bold" style={{ color: "#000000" }}>
-              {isMa ? "Équivalent en dirhams" : "Tarifs en euros"}
+              Tarifs en euros
             </h3>
             <p className="text-[14px] leading-relaxed" style={{ color: "var(--muted)" }}>
-              {isMa
-                ? `La consommation est débitée en euros. Les montants en dirhams sont convertis à titre indicatif (1 € ≈ ${rateLabel} MAD) et peuvent varier avec le taux de change.`
-                : "Les tarifs de consommation sont exprimés en euros."}
+              Les tarifs de consommation sont exprimés en euros.
             </p>
           </div>
         </div>

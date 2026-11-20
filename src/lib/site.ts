@@ -199,11 +199,12 @@ export const FEATURES: Feature[] = [
 ];
 
 /* ---------------- Pricing ---------------- */
-export type Region = "fr" | "ma";
+/** Tarifs France uniquement (en euros). */
+export type Region = "fr";
 
 export interface PlanRegion {
   price: number;
-  currency: "€" | "MAD";
+  currency: "€";
   monthly: number;
   install1: number;
 }
@@ -215,7 +216,7 @@ export interface Plan {
   badgeStyle?: "solid" | "outline";
   users: string;
   contacts: string;
-  regions: { fr: PlanRegion; ma: PlanRegion };
+  regions: { fr: PlanRegion };
 }
 
 export const PLANS: Plan[] = [
@@ -227,7 +228,6 @@ export const PLANS: Plan[] = [
     contacts: "5 000",
     regions: {
       fr: { price: 990, currency: "€", monthly: 82.5, install1: 495 },
-      ma: { price: 14000, currency: "MAD", monthly: 1167, install1: 7000 },
     },
   },
   {
@@ -240,7 +240,6 @@ export const PLANS: Plan[] = [
     contacts: "15 000",
     regions: {
       fr: { price: 2490, currency: "€", monthly: 207.5, install1: 1245 },
-      ma: { price: 35100, currency: "MAD", monthly: 2925, install1: 17550 },
     },
   },
   {
@@ -251,7 +250,6 @@ export const PLANS: Plan[] = [
     contacts: "Illimité",
     regions: {
       fr: { price: 4990, currency: "€", monthly: 415.8, install1: 2495 },
-      ma: { price: 70300, currency: "MAD", monthly: 5858, install1: 35150 },
     },
   },
 ];
@@ -296,23 +294,12 @@ export const INCLUDED_GROUPS: { title: string; items: string[] }[] = [
 /* AI agents consumption */
 export interface AgentRate {
   unit: string;
-  /** Prix client en euros (coût × marge). Converti en MAD à l'affichage. */
+  /** Prix client en euros (coût × marge). */
   eur: number;
 }
 
-/** Taux de conversion indicatif pour l'affichage des consommations en dirhams. */
-export const EUR_TO_MAD = 10.8;
-
-/** "0,04 €" / "0,43 MAD" — euros jusqu'à 4 décimales, dirhams à 2 décimales. */
-export function formatRate(eur: number, region: "fr" | "ma") {
-  if (region === "ma") {
-    const mad = Math.max(0.01, Math.round(eur * EUR_TO_MAD * 100) / 100);
-    return (
-      new Intl.NumberFormat("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(
-        mad,
-      ) + " MAD"
-    );
-  }
+/** "0,04 €" — euros, jusqu'à 4 décimales. */
+export function formatRate(eur: number) {
   return (
     new Intl.NumberFormat("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 4 }).format(
       eur,

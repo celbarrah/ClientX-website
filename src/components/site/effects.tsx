@@ -4,15 +4,7 @@ import { motion, useInView, useScroll, useTransform, useAnimationFrame } from "f
 const EASE = [0.16, 1, 0.3, 1] as const;
 
 /* ---------- Number count-up (Intl fr-FR) ---------- */
-export function Counter({
-  to,
-  currency = "€",
-  duration = 1400,
-}: {
-  to: number;
-  currency?: "€" | "MAD";
-  duration?: number;
-}) {
+export function Counter({ to, duration = 1400 }: { to: number; duration?: number }) {
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.3 });
   const [val, setVal] = useState(0);
@@ -33,8 +25,8 @@ export function Counter({
   }, [inView, to, duration]);
 
   const fmt = new Intl.NumberFormat("fr-FR", {
-    minimumFractionDigits: currency === "MAD" ? 0 : to % 1 === 0 ? 0 : 2,
-    maximumFractionDigits: currency === "MAD" ? 0 : 2,
+    minimumFractionDigits: to % 1 === 0 ? 0 : 2,
+    maximumFractionDigits: 2,
   });
 
   return (
