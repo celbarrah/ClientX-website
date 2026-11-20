@@ -12,13 +12,14 @@ import {
   type Region,
 } from "../components/site/Pricing";
 import { FaqSection } from "../components/site/Faq";
+import { TRIAL_URL } from "../lib/site";
 
 export const Route = createFileRoute("/tarifs")({
   head: () => ({
     ...pageSeo({
       title: "Nos Tarifs & Abonnements — ClientX AI",
       description:
-        "Découvrez les tarifs transparents de ClientX AI. Forfaits tout-inclus sans engagement avec accompagnement 1:1 et certification ISO 9001.",
+        "Trois formules pour les métiers de la beauté, du bien-être et du fitness. Zéro commission, mise en place accompagnée, essai gratuit 14 jours. Certifié ISO 9001.",
       path: "/tarifs",
     }),
     scripts: [jsonLd(breadcrumbLd([{ name: "Tarifs", path: "/tarifs" }])), jsonLd(SOFTWARE_LD)],
@@ -52,7 +53,7 @@ function TarifsPage() {
             <span style={{ color: "var(--green-text)" }}>ambition.</span>
           </>
         }
-        paragraph="Un seul CRM IA pour vos sites, vos contacts, vos emails, vos rendez-vous et vos automatisations."
+        paragraph="Trois formules, un abonnement fixe et zéro commission sur vos soins. Essai gratuit pendant 14 jours."
       />
 
       {/* Pricing — White Section */}
@@ -67,7 +68,7 @@ function TarifsPage() {
               key={region}
               className="mt-12 w-full"
             >
-              <PricingCards region={region} ctaTo="/contact" />
+              <PricingCards region={region} ctaTo={TRIAL_URL} />
             </motion.div>
             <p className="mt-8 text-[13px]" style={{ color: "var(--muted)" }}>
               Prix par an, paiement annuel uniquement. « 2 × » indique le paiement échelonné en deux

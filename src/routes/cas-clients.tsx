@@ -7,15 +7,18 @@ import { PageHero, PageMain, FooterCTA } from "../components/site/primitives";
 import { PrimaryButton } from "../components/site/Buttons";
 import { SECTORS_DATA, type UseCaseDetail } from "../lib/use-cases-data";
 
+/* Site dédié aux métiers de la beauté, du bien-être et du fitness : seul ce secteur est affiché. */
+const SECTORS = SECTORS_DATA.filter((s) => s.id === "fitness");
+
 export const Route = createFileRoute("/cas-clients")({
   validateSearch: (search: Record<string, unknown>) => ({
-    secteur: (search.secteur as string) || SECTORS_DATA[0].id,
+    secteur: (search.secteur as string) || SECTORS[0].id,
   }),
   head: () => ({
     ...pageSeo({
-      title: "Cas d'Usage & Cas Clients par Secteur — ClientX AI",
+      title: "Nos clients — beauté, bien-être et fitness — ClientX AI",
       description:
-        "Découvrez nos cas clients réels par secteur : Automobile (Ford, Opel), Fitness (Morfit, Epiltech, UGolf), Immobilier, et plus.",
+        "Découvrez comment Morfit, Epiltech et UGolf utilisent ClientX : présence aux rendez-vous, forfaits signés, avis Google.",
       path: "/cas-clients",
     }),
     scripts: [jsonLd(breadcrumbLd([{ name: "Cas Clients", path: "/cas-clients" }]))],
@@ -101,19 +104,19 @@ function JourneyNode({
 
 function UseCasesPage() {
   const search = useSearch({ from: "/cas-clients" });
-  const [selectedSectorId, setSelectedSectorId] = useState(search.secteur || SECTORS_DATA[0].id);
+  const [selectedSectorId, setSelectedSectorId] = useState(search.secteur || SECTORS[0].id);
   const [selectedCaseIndex, setSelectedCaseIndex] = useState(0);
 
   useEffect(() => {
     const fromUrl = search.secteur;
-    if (fromUrl && SECTORS_DATA.some((s) => s.id === fromUrl) && fromUrl !== selectedSectorId) {
+    if (fromUrl && SECTORS.some((s) => s.id === fromUrl) && fromUrl !== selectedSectorId) {
       setSelectedSectorId(fromUrl);
       setSelectedCaseIndex(0);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search.secteur]);
 
-  const activeSector = SECTORS_DATA.find((s) => s.id === selectedSectorId) || SECTORS_DATA[0];
+  const activeSector = SECTORS.find((s) => s.id === selectedSectorId) || SECTORS[0];
   const activeUseCase: UseCaseDetail | undefined =
     activeSector.useCases[selectedCaseIndex] || activeSector.useCases[0];
   const [hero, ...rest] = activeUseCase?.results ?? [];
@@ -127,15 +130,15 @@ function UseCasesPage() {
             style={{ background: "var(--green-soft)", color: "var(--green-text)" }}
           >
             <span className="h-1.5 w-1.5 rounded-full" style={{ background: "var(--green)" }} />
-            Par secteur d'activité
+            Clients
           </span>
         }
         title={
           <>
-            Nos Cas Clients <span style={{ color: "var(--green-text)" }}>par Secteur</span>
+            Nos clients, <span style={{ color: "var(--green-text)" }}>leurs résultats</span>
           </>
         }
-        paragraph="Sélectionnez un secteur pour découvrir nos clients concrets, leurs défis et les solutions CRM & IA que nous avons déployées."
+        paragraph="Instituts, centres d'épilation, salles de sport : découvrez nos clients, leurs défis et ce que ClientX a changé pour eux."
       />
 
       <div className="container-x pb-24">
@@ -184,11 +187,11 @@ function UseCasesPage() {
           <div className="relative">
             {/* Sector chips */}
             <div
-              className="no-scrollbar -mx-1 flex gap-2.5 overflow-x-auto px-1 py-2 lg:flex-wrap lg:justify-center"
+              className={`no-scrollbar -mx-1 gap-2.5 overflow-x-auto px-1 py-2 lg:flex-wrap lg:justify-center ${SECTORS.length > 1 ? "flex" : "hidden"}`}
               role="tablist"
               aria-label="Secteurs d'activité"
             >
-              {SECTORS_DATA.map((sector) => {
+              {SECTORS.map((sector) => {
                 const Icon = sector.icon;
                 const on = selectedSectorId === sector.id;
                 return (

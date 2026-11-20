@@ -73,7 +73,7 @@ export const ORGANIZATION_LD = {
   url: SITE_URL,
   logo: FAVICON_URL,
   description:
-    "CRM IA tout-en-un : sites, tunnels, CRM, emails, SMS, calendriers, formations et automatisations dans une seule plateforme.",
+    "Assistante IA pour les métiers de la beauté, du bien-être et du fitness : répond sur Instagram, Facebook et WhatsApp, relance les clientes inactives et collecte les avis Google. Zéro commission.",
   areaServed: ["FR", "MA", "BE", "CH"],
   hasCredential: "ISO 9001",
 };
@@ -97,7 +97,7 @@ export const SOFTWARE_LD = {
   url: SITE_URL,
   publisher: { "@id": `${SITE_URL}/#organization` },
   description:
-    "Centralisez vos sites, tunnels, CRM, emails, calendriers et automatisations dans un CRM IA tout-en-un unifié.",
+    "Assistante IA pour instituts, salons, centres d'épilation et salles de sport : réponses sur les réseaux, relance des clientes inactives, avis Google. Zéro commission.",
   offers: PLANS.map((p) => ({
     "@type": "Offer",
     name: `ClientX ${p.name}`,

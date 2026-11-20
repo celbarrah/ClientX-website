@@ -1,18 +1,75 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
-import { List, X, CaretUp, ArrowRight } from "@phosphor-icons/react";
-import { CLIENTX_LOGO } from "../../lib/site";
+import { List, X, CaretUp, CaretDown, ArrowRight } from "@phosphor-icons/react";
+import { CLIENTX_LOGO, TRIAL_URL, DEMO_URL } from "../../lib/site";
+import { ACTIVITES_MENU } from "../../lib/activites-data";
 import { PrimaryButton } from "./Buttons";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
+/* Menu : Activités (menu déroulant) · Fonctionnalités · Tarifs · Clients */
 const NAV = [
-  { label: "Plateforme & Features", to: "/fonctionnalites", match: "/fonctionnalites" },
-  { label: "Agents IA", to: "/agents-ia", match: "/agents-ia" },
-  { label: "Cas Clients", to: "/cas-clients", match: "/cas-clients" },
-  { label: "Nos Tarifs", to: "/tarifs", match: "/tarifs" },
+  { label: "Fonctionnalités", to: "/fonctionnalites", match: "/fonctionnalites" },
+  { label: "Tarifs", to: "/tarifs", match: "/tarifs" },
+  { label: "Clients", to: "/cas-clients", match: "/cas-clients" },
 ];
+
+function ActivitesDropdown({ active }: { active: boolean }) {
+  return (
+    <div className="group relative">
+      <button
+        type="button"
+        aria-haspopup="true"
+        className="flex items-center gap-1 rounded-full px-4 py-2 text-[14px] font-medium transition-colors hover:bg-black/[0.04]"
+        style={{
+          color: active ? "var(--ink)" : "var(--muted)",
+          background: active ? "rgba(0,0,0,0.05)" : undefined,
+        }}
+      >
+        Activités
+        <CaretDown
+          className="h-3.5 w-3.5 transition-transform group-hover:rotate-180"
+          weight="bold"
+        />
+      </button>
+      <div className="invisible absolute left-0 top-full z-10 pt-3 opacity-0 transition-all duration-150 group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
+        <ul
+          className="w-60 rounded-3xl bg-white p-2"
+          style={{
+            boxShadow: "0 0 0 1px rgba(10,30,15,0.08), 0 24px 48px -16px rgba(16,60,28,0.28)",
+          }}
+        >
+          {ACTIVITES_MENU.map((a) => (
+            <li key={a.slug}>
+              {a.live ? (
+                <Link
+                  to="/activites/$slug"
+                  params={{ slug: a.slug }}
+                  className="block rounded-2xl px-4 py-2.5 text-[14px] font-medium transition-colors hover:bg-black/[0.04]"
+                  style={{ color: "var(--ink)" }}
+                >
+                  {a.label}
+                </Link>
+              ) : (
+                <span
+                  className="flex items-center justify-between rounded-2xl px-4 py-2.5 text-[14px]"
+                  style={{ color: "var(--faint)" }}
+                  aria-disabled="true"
+                >
+                  {a.label}
+                  <span className="rounded-full bg-black/[0.05] px-2 py-0.5 text-[10.5px] font-semibold">
+                    Bientôt
+                  </span>
+                </span>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
 
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
@@ -56,6 +113,7 @@ export function SiteHeader() {
         </Link>
 
         <nav className="hidden items-center gap-1 md:flex">
+          <ActivitesDropdown active={pathname.startsWith("/activites")} />
           {NAV.map((n) => {
             const active = pathname === n.match;
             return (
@@ -75,9 +133,16 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <div className="hidden md:block">
-            <PrimaryButton to="/contact" className="!h-11 !px-5 !text-[14px]">
-              Réserver une Démo
+          <div className="hidden items-center gap-1 md:flex">
+            <a
+              href={DEMO_URL}
+              className="rounded-full px-4 py-2 text-[14px] font-medium transition-colors hover:bg-black/[0.04]"
+              style={{ color: "var(--muted)" }}
+            >
+              Voir une démo
+            </a>
+            <PrimaryButton to={TRIAL_URL} className="!h-11 !px-5 !text-[14px]">
+              Essai gratuit 14 jours
             </PrimaryButton>
           </div>
           <button
@@ -117,7 +182,39 @@ export function SiteHeader() {
                 <X className="h-5 w-5" weight="regular" />
               </button>
             </div>
-            <div className="mt-16 flex flex-col gap-5">
+            <div className="mt-12 flex flex-col gap-5">
+              <div>
+                <p
+                  className="label mb-3"
+                  style={{ color: "var(--faint)", letterSpacing: "0.14em" }}
+                >
+                  Activités
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {ACTIVITES_MENU.map((a) =>
+                    a.live ? (
+                      <Link
+                        key={a.slug}
+                        to="/activites/$slug"
+                        params={{ slug: a.slug }}
+                        onClick={() => setMenuOpen(false)}
+                        className="rounded-full border px-4 py-2 text-[15px] font-medium"
+                        style={{ borderColor: "var(--line-strong)", color: "var(--ink)" }}
+                      >
+                        {a.label}
+                      </Link>
+                    ) : (
+                      <span
+                        key={a.slug}
+                        className="rounded-full border px-4 py-2 text-[15px]"
+                        style={{ borderColor: "var(--line)", color: "var(--faint)" }}
+                      >
+                        {a.label} · bientôt
+                      </span>
+                    ),
+                  )}
+                </div>
+              </div>
               {NAV.map((n, i) => (
                 <motion.div
                   key={n.to}
@@ -146,9 +243,16 @@ export function SiteHeader() {
               transition={{ delay: 0.4 }}
               className="mt-auto pb-10"
             >
-              <PrimaryButton to="/contact" className="w-full">
-                Réserver une Démo
+              <PrimaryButton to={TRIAL_URL} className="w-full">
+                Essai gratuit 14 jours
               </PrimaryButton>
+              <a
+                href={DEMO_URL}
+                className="mt-4 block text-center text-[15px] font-medium"
+                style={{ color: "var(--muted)" }}
+              >
+                Voir une démo
+              </a>
             </motion.div>
           </motion.div>
         )}
@@ -186,9 +290,9 @@ export function SiteFooter() {
               className="mt-6 max-w-[26rem] text-[14.5px] leading-relaxed"
               style={{ color: "var(--text)" }}
             >
-              Le CRM IA tout-en-un qui centralise vos sites, vos contacts, vos emails, vos
-              calendriers et vos automatisations. Augmentez vos résultats sans multiplier vos
-              abonnements.
+              Une assistante IA qui répond à vos clientes sur Instagram, Facebook et WhatsApp,
+              relance celles qui ne reviennent plus et collecte vos avis Google. Pour les métiers de
+              la beauté, du bien-être et du fitness. Zéro commission.
             </p>
             <p className="label mt-6" style={{ color: "var(--faint)", letterSpacing: "0.14em" }}>
               Certifié ISO 9001 · MENA &amp; Europe
@@ -196,48 +300,42 @@ export function SiteFooter() {
 
             <div className="mt-12">
               <h4 className="label" style={{ color: "var(--faint)", letterSpacing: "0.14em" }}>
-                Contact &amp; Démo
+                Essai gratuit
               </h4>
               <p
                 className="mt-4 max-w-[20rem] text-[14.5px] leading-relaxed"
                 style={{ color: "var(--text)" }}
               >
-                Planifiez une démonstration en direct pour découvrir la plateforme et auditer vos
-                processus.
+                Testez ClientX pendant 14 jours dans votre établissement, ou demandez une
+                démonstration en direct.
               </p>
-              <Link
-                to="/contact"
+              <a
+                href={TRIAL_URL}
                 className="btn-glow group mt-6 inline-flex h-12 items-center gap-3 rounded-full pl-6 pr-1.5 text-[14.5px] font-semibold"
               >
-                Réserver une Démo
+                Essai gratuit 14 jours
                 <span className="grid h-9 w-9 place-items-center rounded-full bg-white transition-transform duration-300 group-hover:translate-x-0.5">
                   <ArrowRight className="h-4 w-4" weight="bold" style={{ color: "#0b0f0c" }} />
                 </span>
-              </Link>
+              </a>
             </div>
           </div>
 
           {/* Plateforme */}
           <div className="md:col-span-3 md:col-start-7">
             <h4 className="label" style={{ color: "var(--faint)", letterSpacing: "0.14em" }}>
-              Plateforme All-In-One
+              Activités
             </h4>
             <ul className="mt-5 space-y-3.5 text-[14.5px]">
-              {[
-                "Sites & Tunnels de Vente",
-                "CRM Systémique Unifié",
-                "Email, SMS & WhatsApp",
-                "Calendriers & Rendez-vous",
-                "Formations & E-learning",
-                "Automatisations & Workflows",
-              ].map((item) => (
-                <li key={item}>
+              {ACTIVITES_MENU.filter((a) => a.live).map((a) => (
+                <li key={a.slug}>
                   <Link
-                    to="/fonctionnalites"
+                    to="/activites/$slug"
+                    params={{ slug: a.slug }}
                     className="footer-link"
                     style={{ color: "var(--ink)" }}
                   >
-                    {item}
+                    {a.label}
                   </Link>
                 </li>
               ))}
@@ -252,11 +350,12 @@ export function SiteFooter() {
             <ul className="mt-5 space-y-3.5 text-[14.5px]">
               {(
                 [
-                  ["/cas-clients", "Cas Clients par Secteur"],
+                  ["/cas-clients", "Clients"],
                   ["/fonctionnalites", "Fonctionnalités"],
-                  ["/tarifs", "Nos Tarifs"],
-                  ["/contact", "Réserver une Démo"],
-                  ["/contact", "Onboarding & Support"],
+                  ["/tarifs", "Tarifs"],
+                  [TRIAL_URL, "Essai gratuit 14 jours"],
+                  [DEMO_URL, "Voir une démo"],
+                  ["/contact", "Mise en place & support"],
                 ] as const
               ).map(([to, label]) => (
                 <li key={label}>
@@ -276,7 +375,7 @@ export function SiteFooter() {
         >
           <p>© 2013–2026 ClientX AI by Webeuz. Tous droits réservés.</p>
           <p className="hidden lg:block" style={{ color: "var(--faint)" }}>
-            ClientX est propulsé par la puissance systémique All-in-One
+            Conçu pour les métiers de la beauté, du bien-être et du fitness
           </p>
           <div className="flex gap-6">
             <Link to="/mentions-legales" className="footer-link">

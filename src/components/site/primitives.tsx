@@ -2,6 +2,7 @@ import { motion, useInView, type Variants } from "framer-motion";
 import { useRef, useState, type ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { CaretRight, ArrowRight } from "@phosphor-icons/react";
+import { TRIAL_URL } from "../../lib/site";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -216,7 +217,7 @@ export function PageHero({
 
 /* ---------- Footer CTA: large editorial card (Contact & Démo) ---------- */
 export function FooterCTA() {
-  const TRUST = ["Certifié ISO 9001", "MENA & Europe", "Disponibilité 99.9% et support dédié"];
+  const TRUST = ["Certifié ISO 9001", "Zéro commission", "Essai gratuit 14 jours"];
   return (
     <section className="container-x py-10 md:py-14">
       <motion.div
@@ -238,7 +239,7 @@ export function FooterCTA() {
             className="text-[11px] uppercase tracking-[0.16em]"
             style={{ fontFamily: "var(--font-mono)", color: "var(--muted)" }}
           >
-            (08) Réserver une Démo
+            (08) Essai gratuit
           </span>
 
           <div className="mt-8 grid items-end gap-10 lg:grid-cols-[1.4fr_1fr]">
@@ -252,9 +253,9 @@ export function FooterCTA() {
                 color: "#0b0f0c",
               }}
             >
-              Un seul
+              Plus de
               <br />
-              CRM IA.
+              clientes.
               <br />
               <span
                 style={{
@@ -266,9 +267,9 @@ export function FooterCTA() {
                   fontSize: "1.05em",
                 }}
               >
-                Tout votre
+                Moins de
                 <br />
-                business.
+                messages.
               </span>
             </h2>
 
@@ -277,12 +278,12 @@ export function FooterCTA() {
                 className="max-w-[24rem] text-[15.5px] leading-relaxed"
                 style={{ color: "var(--muted)" }}
               >
-                Planifiez une démonstration en direct pour découvrir la plateforme et auditer vos
-                processus.
+                Testez ClientX pendant 14 jours dans votre établissement, ou demandez une
+                démonstration en direct.
               </p>
               <Magnetic strength={10} className="inline-block">
                 <a
-                  href="/contact"
+                  href={TRIAL_URL}
                   className="group grid h-36 w-36 place-items-center rounded-full text-center transition-transform duration-300 hover:scale-[1.04] md:h-40 md:w-40"
                   style={{
                     background: "#0b0f0c",
@@ -290,8 +291,8 @@ export function FooterCTA() {
                     boxShadow: "0 24px 50px -18px rgba(0,0,0,0.55)",
                   }}
                 >
-                  <span className="flex flex-col items-center gap-1.5 text-[14px] font-semibold">
-                    Réserver une Démo
+                  <span className="flex flex-col items-center gap-1.5 px-3 text-center text-[14px] font-semibold leading-tight">
+                    Essai gratuit 14 jours
                     <ArrowRight
                       className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
                       style={{ color: "var(--green)" }}

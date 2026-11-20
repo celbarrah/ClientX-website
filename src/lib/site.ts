@@ -261,7 +261,7 @@ export const INCLUDED_GROUPS: { title: string; items: string[] }[] = [
   {
     title: "Créer & vendre",
     items: [
-      "Sites & funnels illimités",
+      "Site et pages de réservation illimités",
       "Formations illimitées",
       "Communautés illimitées",
       "Quiz & sondages illimités",
@@ -282,11 +282,11 @@ export const INCLUDED_GROUPS: { title: string; items: string[] }[] = [
   {
     title: "Gérer & automatiser",
     items: [
-      "Automatisations illimitées",
+      "Messages et relances automatiques illimités",
       "Factures & devis illimités",
       "Signatures électroniques illimitées",
-      "Dashboards illimités",
-      "Accès API illimité",
+      "Tableaux de bord illimités",
+      "Connexion à vos autres outils illimitée",
       "Stockage média illimité",
       "0 % de frais de transaction",
     ],
@@ -308,13 +308,15 @@ export function formatRate(eur: number, region: "fr" | "ma") {
   if (region === "ma") {
     const mad = Math.max(0.01, Math.round(eur * EUR_TO_MAD * 100) / 100);
     return (
-      new Intl.NumberFormat("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(mad) +
-      " MAD"
+      new Intl.NumberFormat("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(
+        mad,
+      ) + " MAD"
     );
   }
   return (
-    new Intl.NumberFormat("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 4 }).format(eur) +
-    " €"
+    new Intl.NumberFormat("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 4 }).format(
+      eur,
+    ) + " €"
   );
 }
 export interface AgentCard {
@@ -358,7 +360,7 @@ export const AI_AGENTS: AgentCard[] = [
     ],
   },
   {
-    name: "Funnel, Web & Social AI",
+    name: "Site & réseaux sociaux IA",
     icon: Browser,
     rates: [
       { unit: "Par 1 000 mots générés", eur: 0.45 },
@@ -371,7 +373,7 @@ export const AI_AGENTS: AgentCard[] = [
     rates: [{ unit: "Par réponse IA à un avis", eur: 0.1 }],
   },
   {
-    name: "Workflow AI",
+    name: "Relances automatiques IA",
     icon: FlowArrow,
     rates: [
       { unit: "Par action premium exécutée", eur: 0.05 },
@@ -408,20 +410,24 @@ export const AI_AGENTS: AgentCard[] = [
 /* ---------------- FAQ ---------------- */
 export const FAQS: { q: string; a: string }[] = [
   {
-    q: "ClientX AI peut-il remplacer tous mes abonnements actuels ?",
-    a: "Oui ! ClientX remplace votre outil de tunnel, votre CRM, votre système d'emailing, votre planificateur de rendez-vous, vos outils d'automatisation, vos hébergements de formation et votre planificateur social, vous faisant économiser plus de 15 000€ par an.",
+    q: "Est-ce que ClientX remplace mon logiciel de réservation ?",
+    a: "Pas forcément. ClientX fait ce que les logiciels de réservation ne font pas : répondre à vos clientes sur Instagram, Facebook et WhatsApp, relancer celles qui ne reviennent plus et collecter des avis Google. Nous vous aidons à reprendre votre agenda et vos fiches clientes si vous le souhaitez.",
   },
   {
-    q: "Comment fonctionne l'accompagnement et l'onboarding ?",
-    a: "Chaque nouveau membre bénéficie d'un rendez-vous 1:1 d'onboarding technique avec un eXpert ClientX AI pour configurer vos domaines, vos DNS, vos emails et paramétrer vos premiers workflows sur-mesure.",
+    q: "Y a-t-il une commission sur mes soins ou mes réservations ?",
+    a: "Non. Vous payez un abonnement fixe, sans pourcentage sur vos prestations. Vos clientes restent les vôtres.",
   },
   {
-    q: "Mes données clients sont-elles sécurisées et conformes RGPD ?",
-    a: "Absolument. Vos données sont chiffrées selon les protocoles les plus stricts et notre système de management est certifié ISO 9001. Vos données restent votre propriété exclusive.",
+    q: "Comment se passe la mise en place ?",
+    a: "Elle est accompagnée. Nous configurons avec vous vos soins, vos tarifs, vos horaires et le ton de l'assistante, puis nous vous formons à l'utiliser.",
   },
   {
     q: "Puis-je tester avant de m'engager ?",
-    a: "Oui, vous pouvez réserver une démonstration offerte pour voir la plateforme en direct sur votre propre activité, puis profiter d'un essai avec accompagnement technique 1:1.",
+    a: "Oui, l'essai gratuit dure 14 jours. Vous pouvez aussi demander une démonstration en direct.",
+  },
+  {
+    q: "Mes données et celles de mes clientes sont-elles protégées ?",
+    a: "Oui. Vos données restent les vôtres et notre système de management est certifié ISO 9001.",
   },
 ];
 
@@ -508,3 +514,8 @@ export const CLIENT_LOGOS = [
     src: "https://clientx.uk/wp-content/uploads/2025/06/ford_trucks.png.webp",
   },
 ];
+
+/* ---------------- Appels à l'action ---------------- */
+/** Bouton principal : essai gratuit 14 jours. La démo passe en second. */
+export const TRIAL_URL = "/contact?offre=essai-gratuit-14-jours";
+export const DEMO_URL = "/contact";

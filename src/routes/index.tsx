@@ -5,9 +5,9 @@ import { Homepage } from "../components/Homepage";
 export const Route = createFileRoute("/")({
   head: () => ({
     ...pageSeo({
-      title: "ClientX AI — CRM IA Business All-in-One",
+      title: "ClientX AI — L'assistante IA des métiers de la beauté et du bien-être",
       description:
-        "Centralisez vos sites, tunnels, CRM, emails, calendriers et automatisations dans un CRM IA tout-en-un unifié. Économisez plus de 15 000€ par an.",
+        "Une assistante IA qui répond à vos clientes sur Instagram, Facebook et WhatsApp, relance les inactives et collecte les avis Google. Zéro commission. Essai gratuit 14 jours.",
       path: "/",
     }),
     scripts: [jsonLd(SOFTWARE_LD), jsonLd(FAQ_LD)],

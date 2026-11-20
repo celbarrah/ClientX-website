@@ -8,6 +8,7 @@ import {
   AI_AGENTS,
   EUR_TO_MAD,
   formatRate,
+  TRIAL_URL,
   type Region,
   type Plan,
   type PlanRegion,
@@ -259,7 +260,7 @@ function PricingCard({ plan, region, ctaTo }: { plan: Plan; region: Region; ctaT
           </span>
         </div>
         <div className="flex items-center justify-between">
-          <span style={{ color: sub }}>Contacts CRM</span>
+          <span style={{ color: sub }}>Fiches clientes</span>
           <span className="font-semibold" style={{ color: fg }}>
             {plan.contacts}
           </span>
@@ -269,9 +270,9 @@ function PricingCard({ plan, region, ctaTo }: { plan: Plan; region: Region; ctaT
       {/* Check list */}
       <div className="relative mt-7 space-y-3 text-[14px]">
         {[
-          "Sites & Funnels illimités",
-          "CRM & Pipelines de vente",
-          "Automatisations & Workflows",
+          "Site et pages de réservation illimités",
+          "Fiches clientes et suivi des ventes",
+          "Messages et relances automatiques",
         ].map((t) => (
           <div key={t} className="flex items-center gap-2.5">
             <span
@@ -304,7 +305,7 @@ function PricingCard({ plan, region, ctaTo }: { plan: Plan; region: Region; ctaT
               : { background: "#000000", color: "#ffffff", boxShadow: "var(--shadow-sm)" }
           }
         >
-          Réserver une Démo
+          Essai gratuit 14 jours
           <CaretRight
             weight="bold"
             className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
@@ -327,7 +328,7 @@ function Row({ label, value }: { label: string; value: string }) {
 }
 
 /* ---------- Pricing cards grid (shared) ---------- */
-export function PricingCards({ region, ctaTo = "/contact" }: { region: Region; ctaTo?: string }) {
+export function PricingCards({ region, ctaTo = TRIAL_URL }: { region: Region; ctaTo?: string }) {
   return (
     <div className="relative grid grid-cols-1 gap-5 lg:grid-cols-3 lg:items-stretch lg:gap-6">
       {PLANS.map((p) => (
@@ -372,7 +373,7 @@ export function PricingSection() {
               color: "var(--ink)",
             }}
           >
-            <span className="grad-ink">Choisissez le plan adapté à votre</span>{" "}
+            <span className="grad-ink">Choisissez la formule adaptée à votre</span>{" "}
             <span className="accent-serif" style={{ fontSize: "1.08em" }}>
               ambition.
             </span>
@@ -381,8 +382,8 @@ export function PricingSection() {
             className="text-pretty mt-4 text-[17px] leading-relaxed"
             style={{ color: "var(--muted)", maxWidth: "44rem" }}
           >
-            Un seul CRM IA pour vos sites, vos contacts, vos emails, vos rendez-vous et vos
-            automatisations.
+            Trois formules, un abonnement fixe et zéro commission sur vos soins. Essai gratuit
+            pendant 14 jours.
           </p>
         </div>
         {madAllowed && (
@@ -399,7 +400,7 @@ export function PricingSection() {
             transition={{ duration: 0.4, ease: EASE }}
             className="mt-12"
           >
-            <PricingCards region={shownRegion} ctaTo="/contact" />
+            <PricingCards region={shownRegion} ctaTo={TRIAL_URL} />
           </motion.div>
         </AnimatePresence>
         <p className="mt-10 text-center text-[15px]" style={{ color: "var(--muted)" }}>

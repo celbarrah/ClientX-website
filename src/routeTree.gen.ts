@@ -19,6 +19,7 @@ import { Route as MentionsLegalesRouteImport } from './routes/mentions-legales'
 import { Route as TarifsRouteImport } from './routes/tarifs'
 import { Route as ThankYouGbRouteImport } from './routes/thank-you-gb'
 import { Route as ThankYouMaRouteImport } from './routes/thank-you-ma'
+import { Route as ActivitesSlugRouteImport } from './routes/activites.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -70,6 +71,11 @@ const ThankYouMaRoute = ThankYouMaRouteImport.update({
   path: '/thank-you-ma',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ActivitesSlugRoute = ActivitesSlugRouteImport.update({
+  id: '/activites/$slug',
+  path: '/activites/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -82,6 +88,7 @@ export interface FileRoutesByFullPath {
   '/tarifs': typeof TarifsRoute
   '/thank-you-gb': typeof ThankYouGbRoute
   '/thank-you-ma': typeof ThankYouMaRoute
+  '/activites/$slug': typeof ActivitesSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -94,6 +101,7 @@ export interface FileRoutesByTo {
   '/tarifs': typeof TarifsRoute
   '/thank-you-gb': typeof ThankYouGbRoute
   '/thank-you-ma': typeof ThankYouMaRoute
+  '/activites/$slug': typeof ActivitesSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -107,6 +115,7 @@ export interface FileRoutesById {
   '/tarifs': typeof TarifsRoute
   '/thank-you-gb': typeof ThankYouGbRoute
   '/thank-you-ma': typeof ThankYouMaRoute
+  '/activites/$slug': typeof ActivitesSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -121,6 +130,7 @@ export interface FileRouteTypes {
     | '/tarifs'
     | '/thank-you-gb'
     | '/thank-you-ma'
+    | '/activites/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -133,6 +143,7 @@ export interface FileRouteTypes {
     | '/tarifs'
     | '/thank-you-gb'
     | '/thank-you-ma'
+    | '/activites/$slug'
   id:
     | '__root__'
     | '/'
@@ -145,6 +156,7 @@ export interface FileRouteTypes {
     | '/tarifs'
     | '/thank-you-gb'
     | '/thank-you-ma'
+    | '/activites/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -158,6 +170,7 @@ export interface RootRouteChildren {
   TarifsRoute: typeof TarifsRoute
   ThankYouGbRoute: typeof ThankYouGbRoute
   ThankYouMaRoute: typeof ThankYouMaRoute
+  ActivitesSlugRoute: typeof ActivitesSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -232,6 +245,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ThankYouMaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/activites/$slug': {
+      id: '/activites/$slug'
+      path: '/activites/$slug'
+      fullPath: '/activites/$slug'
+      preLoaderRoute: typeof ActivitesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -246,6 +266,7 @@ const rootRouteChildren: RootRouteChildren = {
   TarifsRoute: TarifsRoute,
   ThankYouGbRoute: ThankYouGbRoute,
   ThankYouMaRoute: ThankYouMaRoute,
+  ActivitesSlugRoute: ActivitesSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
